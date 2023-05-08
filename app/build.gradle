@@ -4,10 +4,10 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.high_five"
+        applicationId "com.seoultech.high_five"
         minSdk 31
         targetSdk 32
         versionCode 1
