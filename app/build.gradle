@@ -7,8 +7,8 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.seoultech.high_five"
-        minSdk 31
+        applicationId "com.seoultech.mobileprogramming.high_five"
+        minSdk 30
         targetSdk 32
         versionCode 1
         versionName "1.0"
