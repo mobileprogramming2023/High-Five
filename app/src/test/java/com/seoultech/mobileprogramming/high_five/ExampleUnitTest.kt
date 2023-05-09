@@ -1,4 +1,4 @@
-package com.example.high_five
+package com.seoultech.mobileprogramming.high_five
 
 import org.junit.Test
 

@@ -2,7 +2,7 @@ package com.seoultech.mobileprogramming.high_five
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.high_five.R
+import com.seoultech.mobileprogramming.high_five.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
