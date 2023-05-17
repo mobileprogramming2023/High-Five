@@ -1,4 +1,4 @@
-package com.seoultech.mobileprogramming.high_five.ui.setting
+package com.seoultech.mobileprogramming.high_five.ui.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

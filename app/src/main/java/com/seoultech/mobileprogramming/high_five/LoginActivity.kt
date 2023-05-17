@@ -60,8 +60,10 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
         binding.btnGoogle.setOnClickListener {
             Log.d("highfive", "btnGoogle clicked")
-            val intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient) // google이 만들어놓은 intent로 넘어옴
-            startActivityForResult(intent, REQ_SIGN_GOOGLE);
+            val intent =
+                Auth.GoogleSignInApi.getSignInIntent(googleApiClient) // google이 만들어놓은 intent로 넘어옴
+            startActivityForResult(intent, REQ_SIGN_GOOGLE)
+
             Log.d("highfive", intent.toString())
         }
     }
@@ -81,8 +83,18 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                     val account: GoogleSignInAccount? = result.signInAccount
                     Log.d("highfive", "account: $account")
                     resultLogin(account)
+                    val intent = Intent(this, MainActivity::class.java)
+                    if (account != null) {
+                        intent.putExtra("name", account.displayName)
+                    }
+                    if (account != null) {
+                        intent.putExtra("photoUrl", account.photoUrl.toString())
+                    }
+                    startActivity(intent)
 
                 } else {
+                    // Temperate Code for accession to the Main Manually
+                    startActivity(Intent(this, MainActivity::class.java))
                     Log.d("highfive", "Login Fail")
 
                 }
@@ -92,7 +104,8 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
     private fun resultLogin(account: GoogleSignInAccount?) {
         if (account != null) {
-            val authCredential: AuthCredential = GoogleAuthProvider.getCredential(account.idToken, null)
+            val authCredential: AuthCredential =
+                GoogleAuthProvider.getCredential(account.idToken, null)
             auth.signInWithCredential(authCredential)
                 .addOnCompleteListener(this, OnCompleteListener {
                     if (it.isSuccessful) {
@@ -101,10 +114,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                             "Login Success",
                             Toast.LENGTH_SHORT,
                         ).show()
-                        val intent = Intent(this, MainActivity::class.java)
-                        intent.putExtra("name", account.displayName)
-                        intent.putExtra("photoUrl", account.photoUrl.toString())
-                        startActivity(intent)
+
                     } else {
                         Toast.makeText(
                             baseContext,

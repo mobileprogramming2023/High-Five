@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
+import com.seoultech.mobileprogramming.high_five.databinding.ActivityMainBinding
+import com.seoultech.mobileprogramming.high_five.databinding.FragmentMainBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,13 +36,15 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val binding = FragmentMainBinding.inflate(layoutInflater)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false)
+
     }
 
     companion object {
         /**
-         * Use this factory method to create a new instance of
+         * Use this factory method to create a new in   stance of
          * this fragment using the provided parameters.
          *
          * @param param1 Parameter 1.
