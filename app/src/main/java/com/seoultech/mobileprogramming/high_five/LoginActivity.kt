@@ -77,10 +77,14 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         if (requestCode == REQ_SIGN_GOOGLE) {
             var result: GoogleSignInResult? = Auth.GoogleSignInApi.getSignInResultFromIntent(data!!)
             if (result != null) {
-                if (result.isSuccess()) {
+                if (result.isSuccess) {
                     val account: GoogleSignInAccount? = result.signInAccount
                     Log.d("highfive", "account: $account")
                     resultLogin(account)
+
+                } else {
+                    Log.d("highfive", "Login Fail")
+
                 }
             }
         }
