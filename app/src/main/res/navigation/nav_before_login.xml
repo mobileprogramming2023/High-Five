@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.seoultech.mobileprogramming.high_five.ui.notifications.NotificationsFragment"
+        android:name="com.seoultech.mobileprogramming.high_five.ui.setting.SettingsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>
