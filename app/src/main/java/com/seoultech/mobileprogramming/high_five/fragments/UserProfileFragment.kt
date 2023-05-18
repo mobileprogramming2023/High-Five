@@ -1,15 +1,16 @@
 package com.seoultech.mobileprogramming.high_five.fragments
 
-import android.content.Intent
-import android.net.Uri
+import android.content.Intent.getIntent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.seoultech.mobileprogramming.high_five.R
-import com.seoultech.mobileprogramming.high_five.databinding.FragmentPostBinding
+import com.seoultech.mobileprogramming.high_five.databinding.ActivityMainBinding
+import com.seoultech.mobileprogramming.high_five.databinding.FragmentUserProfileBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,28 +19,14 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [PostFragment.newInstance] factory method to
+ * Use the [UserProfileFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PostFragment : Fragment() {
+class UserProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    lateinit var binding: FragmentPostBinding
-
-    var PICK_IMAGE_FROM_ALBUM = 0
-    var photoUri: Uri? = null
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_FROM_ALBUM) {
-            photoUri = data?.data
-            Log.d("highfive", "SUCCESS to get photo uri: $photoUri")
-            binding.uploadImg.setImageURI(photoUri)
-        } else {
-            Log.d("highfive", "FAIL to get photo uri")
-        }
-    }
+    val binding by lazy { FragmentUserProfileBinding.inflate(layoutInflater)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,16 +41,7 @@ class PostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentPostBinding.inflate(inflater, container, false)
-//        binding.tvName.text = param1 + param2
-
-        binding.btnInsertImg.setOnClickListener {
-            val photoPickerIntent = Intent(Intent.ACTION_PICK)
-            photoPickerIntent.type = "image/*"
-            startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM)
-        }
-
-        return binding.root
+        return inflater.inflate(R.layout.fragment_user_profile, container, false)
     }
 
     companion object {
@@ -73,12 +51,12 @@ class PostFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment PostFragment.
+         * @return A new instance of fragment UserProfileFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            PostFragment().apply {
+            UserProfileFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
