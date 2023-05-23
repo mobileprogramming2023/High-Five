@@ -19,6 +19,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.seoultech.mobileprogramming.high_five.databinding.ActivityLoginBinding
+import com.seoultech.mobileprogramming.high_five.fragments.UserProfileFragment
 
 
 class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
