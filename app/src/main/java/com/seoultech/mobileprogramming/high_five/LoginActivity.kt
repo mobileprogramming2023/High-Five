@@ -1,13 +1,12 @@
 package com.seoultech.mobileprogramming.high_five
 
 import android.content.Intent
+import android.content.Intent.getIntent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
@@ -19,7 +18,6 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.seoultech.mobileprogramming.high_five.databinding.ActivityLoginBinding
-import com.seoultech.mobileprogramming.high_five.fragments.UserProfileFragment
 
 
 class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
@@ -40,7 +38,11 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
         auth = FirebaseAuth.getInstance() // Initialize firebase Authenticate Object
 
-        val currentUser = auth.currentUser
+        val logoutStatus = getLogoutStatus()
+        var currentUser = auth.currentUser
+        if (logoutStatus) {
+            currentUser = null
+        }
         if (currentUser != null) {
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("name", currentUser.displayName)
@@ -60,11 +62,15 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             .build()
 
         binding.btnGoogle.setOnClickListener {
-            Log.d("highfive", "btnGoogle clicked")
             val intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient) // google이 만들어놓은 intent로 넘어옴
             startActivityForResult(intent, REQ_SIGN_GOOGLE);
-            Log.d("highfive", intent.toString())
         }
+    }
+
+    fun getLogoutStatus(): Boolean {
+        val intent = getIntent()
+        val logout: Boolean = intent.getBooleanExtra("logout", true)
+        return logout
     }
 
     override fun onConnectionFailed(p0: ConnectionResult) {
@@ -80,7 +86,6 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             if (result != null) {
                 if (result.isSuccess()) {
                     val account: GoogleSignInAccount? = result.signInAccount
-                    Log.d("highfive", "account: $account")
                     resultLogin(account)
                 }
             }

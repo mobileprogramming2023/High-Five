@@ -21,21 +21,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        Log.d("highfive", "mainactivity created")
-        val userName = getUserInfo()
+        val userName = getUserName()
+        val userPhotoUrl = getUserPhotoUrl()
 
         var homeFragment = HomeFragment()
         var postFragment = PostFragment()
         var mapsFragment = MapsFragment()
-        var userProfileFragment = UserProfileFragment()
+        var userProfileFragment = UserProfileFragment.newInstance(userName, userPhotoUrl)
 
         val fragmentManager = supportFragmentManager
         fragmentManager.commit {
             add(binding.fragmentContainerView.id, homeFragment)
+            add(binding.fragmentContainerView.id, userProfileFragment)
         }
 
         binding.navigationView.setOnItemSelectedListener {
-            Log.d("highfive", "${it.itemId}")
             when(it.itemId) {
                 R.id.homeFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, homeFragment) }
                 R.id.postFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, postFragment) }
@@ -46,17 +46,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getUserInfo(): String? {
+    fun getUserName(): String? {
         val intent = getIntent()
-        Log.d("highfive", intent.toString())
-
         val name: String? = intent.getStringExtra("name")
-        val photoUrl: String? = intent.getStringExtra("photoUrl")
-
         binding.tvName.text = name
-        Glide.with(this).load(photoUrl).into(binding.ivProfile)
-
         return name
+    }
+
+    fun getUserPhotoUrl(): String? {
+        val intent = getIntent()
+        val photoUrl: String? = intent.getStringExtra("photoUrl")
+        Glide.with(this).load(photoUrl).into(binding.ivProfile)
+        return photoUrl
     }
 
     fun setFragment(tag: String, fragment: Fragment) {

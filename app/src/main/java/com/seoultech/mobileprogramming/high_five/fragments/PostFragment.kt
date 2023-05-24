@@ -34,10 +34,8 @@ class PostFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_FROM_ALBUM) {
             photoUri = data?.data
-            Log.d("highfive", "SUCCESS to get photo uri: $photoUri")
             binding.uploadImg.setImageURI(photoUri)
         } else {
-            Log.d("highfive", "FAIL to get photo uri")
         }
     }
 
