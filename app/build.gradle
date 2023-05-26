@@ -22,6 +22,10 @@ android {
 
         buildConfigField "String", "GOOGLE_API_KEY", properties['google_api_key']
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        buildConfigField "String", "FIREBASE_DATABASE_URL", properties['firebase_database_url']
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
 =======
         buildConfigField "String", "FIREBASE_DATABASE_URL", properties['firebase_database_url']
 >>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
@@ -76,10 +80,15 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
 <<<<<<< HEAD
+<<<<<<< HEAD
     implementation 'androidx.annotation:annotation:1.6.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
+=======
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.firebase:firebase-database-ktx:20.2.1'
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
 =======
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.google.firebase:firebase-database-ktx:20.2.1'

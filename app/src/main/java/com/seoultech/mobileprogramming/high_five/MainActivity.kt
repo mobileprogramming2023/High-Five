@@ -25,8 +25,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 <<<<<<< HEAD
+<<<<<<< HEAD
         Log.d("highfive", "MainActivity created")
         val userName = getUserInfo()
+=======
+        val userName = getUserName()
+        val userPhotoUrl = getUserPhotoUrl()
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
 =======
         val userName = getUserName()
         val userPhotoUrl = getUserPhotoUrl()
@@ -45,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.navigationView.setOnItemSelectedListener {
+<<<<<<< HEAD
 <<<<<<< HEAD
             Log.d("highfive", "${it.itemId}")
             when (it.itemId) {
@@ -83,6 +89,8 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
 =======
+=======
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
             when(it.itemId) {
                 R.id.homeFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, homeFragment) }
                 R.id.postFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, postFragment) }
@@ -96,6 +104,7 @@ class MainActivity : AppCompatActivity() {
 
     fun getUserName(): String? {
         val intent = getIntent()
+<<<<<<< HEAD
         val name: String? = intent.getStringExtra("name")
         binding.tvName.text = name
         return name
@@ -115,6 +124,13 @@ class MainActivity : AppCompatActivity() {
 
     // Set fragment manager for transaction
 =======
+=======
+        val name: String? = intent.getStringExtra("name")
+        binding.tvName.text = name
+        return name
+    }
+
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
     fun getUserPhotoUrl(): String? {
         val intent = getIntent()
         val photoUrl: String? = intent.getStringExtra("photoUrl")
@@ -122,6 +138,9 @@ class MainActivity : AppCompatActivity() {
         return photoUrl
     }
 
+<<<<<<< HEAD
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
+=======
 >>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
     fun setFragment(tag: String, fragment: Fragment) {
         val fragmentManager = supportFragmentManager
