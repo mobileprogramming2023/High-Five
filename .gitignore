@@ -9,6 +9,20 @@ build/
 # Local configuration file (sdk path, etc)
 local.properties
 
+<<<<<<< HEAD
+=======
+# Created by https://www.toptal.com/developers/gitignore/api/android,androidstudio,kotlin
+# Edit at https://www.toptal.com/developers/gitignore?templates=android,androidstudio,kotlin
+
+### Android ###
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
 # Log/OS Files
 *.log
 
@@ -67,6 +81,7 @@ gen-external-apklibs
 hs_err_pid*
 replay_pid*
 
+<<<<<<< HEAD
 ### Gradle ###
 .gradle
 **/build/
@@ -93,6 +108,8 @@ gradle-app.setting
 ### Gradle Patch ###
 # Java heap dump
 
+=======
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
 ### AndroidStudio ###
 # Covers files to be ignored for android development using Android Studio.
 
@@ -111,6 +128,10 @@ gen/
 out/
 
 # Gradle files
+<<<<<<< HEAD
+=======
+.gradle
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
 
 # Signing files
 .signing/
@@ -177,6 +198,11 @@ obj/
 .idea/navEditor.xml
 
 # Legacy Eclipse project files
+<<<<<<< HEAD
+=======
+.classpath
+.project
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
 .cproject
 .settings/
 
@@ -207,4 +233,8 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
+<<<<<<< HEAD
 # End of https://www.toptal.com/developers/gitignore/api/android,androidstudio,kotlin,gradle
+=======
+# End of https://www.toptal.com/developers/gitignore/api/android,androidstudio,kotlin
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478

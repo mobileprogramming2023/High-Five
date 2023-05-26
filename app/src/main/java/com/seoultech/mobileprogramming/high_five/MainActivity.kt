@@ -24,8 +24,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+<<<<<<< HEAD
         Log.d("highfive", "MainActivity created")
         val userName = getUserInfo()
+=======
+        val userName = getUserName()
+        val userPhotoUrl = getUserPhotoUrl()
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
 
         var homeFragment = HomeFragment()
         var postFragment = PostFragment()
@@ -36,9 +41,11 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         fragmentManager.commit {
             add(binding.fragmentContainerView.id, homeFragment)
+//            add(binding.fragmentContainerView.id, userProfileFragment)
         }
 
         binding.navigationView.setOnItemSelectedListener {
+<<<<<<< HEAD
             Log.d("highfive", "${it.itemId}")
             when (it.itemId) {
                 R.id.homeFragment -> fragmentManager.commit {
@@ -75,24 +82,26 @@ class MainActivity : AppCompatActivity() {
                         postFragment
                     )
                 }
+=======
+            when(it.itemId) {
+                R.id.homeFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, homeFragment) }
+                R.id.postFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, postFragment) }
+                R.id.mapFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, mapsFragment) }
+                R.id.userPageFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, userProfileFragment) }
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
             }
             true
         }
     }
 
-    fun getUserInfo(): String? {
+    fun getUserName(): String? {
         val intent = getIntent()
-        Log.d("highfive", intent.toString())
-
         val name: String? = intent.getStringExtra("name")
-        val photoUrl: String? = intent.getStringExtra("photoUrl")
-
         binding.tvName.text = name
-        Glide.with(this).load(photoUrl).into(binding.ivProfile)
-
         return name
     }
 
+<<<<<<< HEAD
     fun getUserInfoForQR(): String? {
         val intent = intent
         Log.d("highfive", intent.toString())
@@ -105,6 +114,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Set fragment manager for transaction
+=======
+    fun getUserPhotoUrl(): String? {
+        val intent = getIntent()
+        val photoUrl: String? = intent.getStringExtra("photoUrl")
+        Glide.with(this).load(photoUrl).into(binding.ivProfile)
+        return photoUrl
+    }
+
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
     fun setFragment(tag: String, fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()

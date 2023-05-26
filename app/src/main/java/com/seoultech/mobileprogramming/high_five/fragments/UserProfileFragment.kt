@@ -1,21 +1,31 @@
 package com.seoultech.mobileprogramming.high_five.fragments
 
-import android.content.Intent.getIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.firebase.auth.FirebaseAuth
+import com.seoultech.mobileprogramming.high_five.LoginActivity
+import com.seoultech.mobileprogramming.high_five.MainActivity
 import com.seoultech.mobileprogramming.high_five.R
-import com.seoultech.mobileprogramming.high_five.databinding.ActivityMainBinding
 import com.seoultech.mobileprogramming.high_five.databinding.FragmentUserProfileBinding
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val USER_NAME = "userName"
+private const val USER_PHOTO_URL = "userPhotoUrl"
 
 /**
  * A simple [Fragment] subclass.
@@ -24,43 +34,70 @@ private const val ARG_PARAM2 = "param2"
  */
 class UserProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-    val binding by lazy { FragmentUserProfileBinding.inflate(layoutInflater)}
+    private lateinit var binding: FragmentUserProfileBinding
+    private val auth = FirebaseAuth.getInstance()
+    private val currentUser = auth.currentUser
+    private var userName = currentUser?.displayName
+    private var userPhotoUrl = currentUser?.photoUrl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_profile, container, false)
+    ): View {
+        binding = FragmentUserProfileBinding.inflate(inflater, container, false)
+        binding.tvName.text = userName
+        Glide.with(this).load(userPhotoUrl).into(binding.ivProfile)
+
+        return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnLogout.setOnClickListener() {
+            googleLogout()
+        }
+    }
+
 
     companion object {
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
+         * @param userName Parameter 1.
+         * @param userPhotoUrl Parameter 2.
          * @return A new instance of fragment UserProfileFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(userName: String?, userPhotoUrl: String?) =
             UserProfileFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString(USER_NAME, userName)
+                    putString(USER_PHOTO_URL, userPhotoUrl)
                 }
             }
     }
+
+    private fun googleLogout() {
+        val googleSignInOptions: GoogleSignInOptions =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+        val googleSignInClient = this.let {GoogleSignIn.getClient(it.requireActivity(), googleSignInOptions)}
+
+        auth.signOut()
+        googleSignInClient.signOut()
+
+        Toast.makeText(this.requireContext(), "Logout Success", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this.requireContext(), LoginActivity::class.java)
+        intent.putExtra("logout", true)
+        startActivity(intent)
+    }
+
 }
