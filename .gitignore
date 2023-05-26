@@ -9,6 +9,20 @@ build/
 # Local configuration file (sdk path, etc)
 local.properties
 
+<<<<<<< HEAD
+=======
+# Created by https://www.toptal.com/developers/gitignore/api/android,androidstudio,kotlin
+# Edit at https://www.toptal.com/developers/gitignore?templates=android,androidstudio,kotlin
+
+### Android ###
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+>>>>>>> 6151fc36aa9bd4cd5044ffa8b7a77200fc9ab478
 # Log/OS Files
 *.log
 
