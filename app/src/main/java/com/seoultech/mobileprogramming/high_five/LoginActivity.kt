@@ -38,11 +38,11 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
         auth = FirebaseAuth.getInstance() // Initialize firebase Authenticate Object
 
-        val logoutStatus = getLogoutStatus()
+//        val logoutStatus = getLogoutStatus()
         var currentUser = auth.currentUser
-        if (logoutStatus) {
-            currentUser = null
-        }
+//        if (logoutStatus) {
+//            currentUser = null
+//        }
         if (currentUser != null) {
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("name", currentUser.displayName)

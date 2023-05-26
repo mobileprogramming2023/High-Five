@@ -4,11 +4,16 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.seoultech.mobileprogramming.high_five.R
+import androidx.fragment.app.Fragment
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.BuildConfig
+import com.google.firebase.ktx.Firebase
+import com.seoultech.mobileprogramming.high_five.DTO.Post
 import com.seoultech.mobileprogramming.high_five.databinding.FragmentPostBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,12 +35,21 @@ class PostFragment : Fragment() {
     var PICK_IMAGE_FROM_ALBUM = 0
     var photoUri: Uri? = null
 
+    val auth = FirebaseAuth.getInstance() // Initialize firebase Authenticate Object
+    val currentUser = auth.currentUser
+    val userId = currentUser?.uid.toString()
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val multiplePermissionsCode = 100
+
+    val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
+    val databaseReference = database.getReference(userId)
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_FROM_ALBUM) {
             photoUri = data?.data
-            binding.uploadImg.setImageURI(photoUri)
-        } else {
+            binding.uploadImage.setImageURI(photoUri)
         }
     }
 
@@ -51,9 +65,7 @@ class PostFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentPostBinding.inflate(inflater, container, false)
-//        binding.tvName.text = param1 + param2
 
         binding.btnInsertImg.setOnClickListener {
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
@@ -61,7 +73,20 @@ class PostFragment : Fragment() {
             startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM)
         }
 
+        binding.btnSave.setOnClickListener {
+            addPost(photoUri, binding.tvInput.text.toString())
+            Log.d("highfive", "addPost() called")
+        }
+
         return binding.root
+    }
+
+    fun addPost(photoUri: Uri?, content: String) {
+
+        val post: Post = Post(photoUri!!.toString(), content, System.currentTimeMillis(), )
+        Log.d("highfive", "$post")
+        databaseReference.child("post").push().setValue(post)
+        TODO("photoUri, tv_Input 없을 때 처리")
     }
 
     companion object {
