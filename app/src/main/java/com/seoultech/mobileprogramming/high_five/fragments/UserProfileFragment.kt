@@ -15,6 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
+import com.google.firebase.auth.FirebaseAuth
 import com.seoultech.mobileprogramming.high_five.LoginActivity
 import com.seoultech.mobileprogramming.high_five.MainActivity
 import com.seoultech.mobileprogramming.high_five.R
@@ -33,26 +34,14 @@ private const val USER_PHOTO_URL = "userPhotoUrl"
  */
 class UserProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var userName: String? = null
-    private var userPhotoUrl: String? = null
-    lateinit var binding: FragmentUserProfileBinding
-    private lateinit var googleSignInClient: GoogleSignInClient
-
+    private lateinit var binding: FragmentUserProfileBinding
+    private val auth = FirebaseAuth.getInstance()
+    private val currentUser = auth.currentUser
+    private var userName = currentUser?.displayName
+    private var userPhotoUrl = currentUser?.photoUrl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            userName = it.getString(USER_NAME)
-            userPhotoUrl = it.getString(USER_PHOTO_URL)
-        }
-
-        val googleSignInOptions: GoogleSignInOptions =
-            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-
-        val googleSignInClient = this.let {GoogleSignIn.getClient(it.requireActivity(), googleSignInOptions)}
     }
 
     override fun onCreateView(
@@ -95,14 +84,20 @@ class UserProfileFragment : Fragment() {
     }
 
     private fun googleLogout() {
+        val googleSignInOptions: GoogleSignInOptions =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+        val googleSignInClient = this.let {GoogleSignIn.getClient(it.requireActivity(), googleSignInOptions)}
+
+        auth.signOut()
         googleSignInClient.signOut()
-            .addOnCompleteListener(this.requireActivity()) {
-                Log.d("highfive", "Logout success")
-                Toast.makeText(this.requireContext(), "Logout Success", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this.requireContext(), LoginActivity::class.java)
-                intent.putExtra("logout", true)
-                startActivity(intent)
-            }
+
+        Toast.makeText(this.requireContext(), "Logout Success", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this.requireContext(), LoginActivity::class.java)
+        intent.putExtra("logout", true)
+        startActivity(intent)
     }
 
 }

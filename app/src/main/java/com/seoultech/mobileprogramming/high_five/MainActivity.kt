@@ -27,12 +27,12 @@ class MainActivity : AppCompatActivity() {
         var homeFragment = HomeFragment()
         var postFragment = PostFragment()
         var mapsFragment = MapsFragment()
-        var userProfileFragment = UserProfileFragment.newInstance(userName, userPhotoUrl)
+        var userProfileFragment = UserProfileFragment()
 
         val fragmentManager = supportFragmentManager
         fragmentManager.commit {
             add(binding.fragmentContainerView.id, homeFragment)
-            add(binding.fragmentContainerView.id, userProfileFragment)
+//            add(binding.fragmentContainerView.id, userProfileFragment)
         }
 
         binding.navigationView.setOnItemSelectedListener {
