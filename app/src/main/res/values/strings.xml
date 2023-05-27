@@ -2,4 +2,30 @@
     <string name="app_name">High-Five</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="plus">+</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <!-- Strings related to High-Five Fragment -->
+    <string name="high_five">Highfive</string>
+    <string name="high_five_fragment_nav_title">High-Five</string>
+    <string name="high_five_fragment_title">High-Five Fragment. QR Code would be contained</string>
+
+
+    <!-- Strings related to Post Fragment -->
+    <string name="post_fragment_nav_title">Post</string>
+    <string name="post_fragment_title">Post Fragment</string>
+
+    <!-- Strings related to User Qr Fragment -->
+    <string name="wv_qr_code">QR Code</string>
+    <string name="user_qr_code_info">This is QR code fragment.</string>
+    <string name="qr_description">Indicates QR code for record</string>
 </resources>

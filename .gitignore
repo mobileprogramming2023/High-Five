@@ -1,5 +1,21 @@
+<<<<<<< HEAD
 # Created by https://www.toptal.com/developers/gitignore/api/android,androidstudio,visualstudiocode,kotlin
 # Edit at https://www.toptal.com/developers/gitignore?templates=android,androidstudio,visualstudiocode,kotlin
+=======
+# Created by https://www.toptal.com/developers/gitignore/api/android,androidstudio,kotlin
+# Edit at https://www.toptal.com/developers/gitignore?templates=android,androidstudio,kotlin
+
+### Android ###
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Created by https://www.toptal.com/developers/gitignore/api/android,androidstudio,kotlin
+# Edit at https://www.toptal.com/developers/gitignore?templates=android,androidstudio,kotlin
+>>>>>>> 51ab0800e9b5a72a85a5b8128d3e66cfdfa41cea
 
 ### Android ###
 # Gradle files

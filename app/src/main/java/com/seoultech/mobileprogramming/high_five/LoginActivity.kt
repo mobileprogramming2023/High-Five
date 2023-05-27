@@ -121,5 +121,6 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         }
     }
 
+
 }
 
