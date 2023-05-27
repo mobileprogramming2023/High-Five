@@ -22,6 +22,7 @@ android {
 
         buildConfigField "String", "GOOGLE_API_KEY", properties['google_api_key']
         buildConfigField "String", "FIREBASE_DATABASE_URL", properties['firebase_database_url']
+        buildConfigField "String", "FIREBASE_STORAGE_URL", properties['firebase_storage_url']
         manifestPlaceholders = [GOOGLE_API_KEY: properties['google_api_key']]
     }
 
@@ -46,6 +47,7 @@ android {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
 
 dependencies {
 
@@ -66,8 +68,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.google.firebase:firebase-database-ktx:20.2.1'
+    implementation 'com.google.firebase:firebase-storage:20.2.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation "com.github.skydoves:balloon:1.5.3"
 }

@@ -1,11 +1,31 @@
 package com.seoultech.mobileprogramming.high_five.fragments
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.seoultech.mobileprogramming.high_five.DTO.Post
 import com.seoultech.mobileprogramming.high_five.R
+import com.seoultech.mobileprogramming.high_five.databinding.FragmentHomeBinding
+import com.seoultech.mobileprogramming.high_five.databinding.FriendViewBinding
+import com.seoultech.mobileprogramming.high_five.databinding.PostViewBinding
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +42,17 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    lateinit var binding: FragmentHomeBinding
+
+    val auth = FirebaseAuth.getInstance()
+    val currentUser = auth.currentUser
+    val userId = currentUser?.uid.toString()
+
+    val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
+    val currentUserDB = database.getReference(userId)
+
+    var postList = mutableListOf<Post>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -33,9 +64,43 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    ): View {
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        val postAdapter = PostAdapter(postList)
+        binding.postRecyclerView.adapter = postAdapter
+        binding.postRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
+        Log.d("highfive", "postAdapter $postList")
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                postList.clear()
+                for (postDataSnapshot in dataSnapshot.children) {
+                    val postId = postDataSnapshot.value
+                    val postContents: String = postDataSnapshot.child("contents").value as String
+                    val postFriendUserId: String = postDataSnapshot.child("friendUserId").value as String
+                    val postLocation: String = postDataSnapshot.child("location").value as String
+                    val postImage: String = postDataSnapshot.child("imageDownloadUri").value as String
+                    val postTimestamp: Long = postDataSnapshot.child("timestamp").value as Long
+                    val post = Post(contents = postContents,
+                        friendUserId = postFriendUserId,
+                        location = postLocation,
+                        imageDownloadUri = postImage,
+                        timestamp = postTimestamp)
+                    postList.add(post)
+                    postAdapter.notifyDataSetChanged()
+                }
+                Log.d("highfive", "$postList")
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w( "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        currentUserDB.child("post").addListenerForSingleValueEvent(postListener)
+
+        return binding.root
     }
 
     companion object {
@@ -56,5 +121,47 @@ class HomeFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+}
+
+class PostAdapter(val postList: MutableList<Post>): RecyclerView.Adapter<PostAdapter.ViewHolder>() {
+    class ViewHolder(val friendViewBinding: FriendViewBinding, val postViewBinding: PostViewBinding, val context: Context) : RecyclerView.ViewHolder(friendViewBinding.root) {
+        fun bind(post: Post) {
+            friendViewBinding.tvFriendName.text = post.friendUserId
+            friendViewBinding.tvPostContents.text = post.contents
+            friendViewBinding.root.setOnClickListener {
+                Glide.with(this.context).load(post.imageDownloadUri).load(postViewBinding.postImage)
+                postViewBinding.postFriendName.text = post.friendUserId
+                postViewBinding.postContents.text = post.contents
+                val balloon = Balloon.Builder(context)
+                    .setLayout(postViewBinding.ConstraintLayout)
+                    .setArrowSize(10)
+                    .setArrowColorMatchBalloon(true)
+                    .setArrowOrientation(ArrowOrientation.TOP)
+                    .setArrowPosition(0.5f)
+                    .setWidthRatio(0.55f)
+                    .setHeight(250)
+                    .setCornerRadius(4f)
+                    .setBackgroundColor(ContextCompat.getColor(context, R.color.gray))
+                    .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
+                    .build()
+                balloon.showAlignBottom(friendViewBinding.root)
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val friendViewBinding = FriendViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val postViewBinding = PostViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(friendViewBinding, postViewBinding, parent.context)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val post = postList.get(position)
+        holder.bind(post)
+    }
+
+    override fun getItemCount(): Int {
+        return postList.size
     }
 }
