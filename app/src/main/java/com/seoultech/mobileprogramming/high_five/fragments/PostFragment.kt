@@ -55,10 +55,7 @@ class PostFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_FROM_ALBUM) {
             photoUri = data?.data
-            Log.d("highfive", "SUCCESS to get photo uri: $photoUri")
             binding.uploadImage.setImageURI(photoUri)
-        } else {
-            Log.d("highfive", "FAIL to get photo uri")
         }
     }
 
@@ -85,12 +82,11 @@ class PostFragment : Fragment() {
         binding.btnSave.setOnClickListener {
             if ((binding.tvInput.text?.length ?: 0) == 0) {
                 Toast.makeText(this.requireContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
-            }
-            else if (photoUri == null) {
+            } else if (photoUri == null) {
                 addPost("", binding.tvInput.text.toString())
-            }
-            else {
-                val imageStorageReference = userStorageReference.child("post/images/${photoUri!!.lastPathSegment}")
+            } else {
+                val imageStorageReference =
+                    userStorageReference.child("post/images/${photoUri!!.lastPathSegment}")
                 var uploadTask = imageStorageReference.putFile(photoUri!!)
                 lateinit var downloadUri: Uri
 
@@ -119,16 +115,15 @@ class PostFragment : Fragment() {
         return binding.root
     }
 
-<<<<<<< HEAD
     fun addPost(imageDownloadUri: String, content: String) {
         val testFriendUid = "freindUid_test"
-        val post: Post = Post(imageDownloadUri, content, testFriendUid, System.currentTimeMillis(), "서울시 노원구 공릉동")
-=======
-    fun addPost(photoUri: Uri?, content: String) {
-
-        val post: Post = Post(photoUri!!.toString(), content, System.currentTimeMillis())
-        Log.d("highfive", "$post")
->>>>>>> develop-qr-page
+        val post: Post = Post(
+            imageDownloadUri,
+            content,
+            testFriendUid,
+            System.currentTimeMillis(),
+            "서울시 노원구 공릉동"
+        )
         databaseReference.child("post").push().setValue(post)
     }
 
