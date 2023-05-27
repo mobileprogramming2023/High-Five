@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/postFragment"
-        android:title="Highfive"
+        android:title="@string/post_fragment_nav_title"
         android:icon="@drawable/ic_logo"/>
 
     <item
@@ -19,5 +19,10 @@
         android:id="@+id/userPageFragment"
         android:title="User Profile"
         android:icon="@drawable/ic_baseline_person_24"/>
+
+    <item
+        android:id="@id/nav_user_qr_fragment"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="@string/high_five_fragment_nav_title" />
 
 </menu>
