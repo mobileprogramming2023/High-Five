@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ID for High_Five Fragment -->
-    <item name="qrFragment" type="id" />
-    <item name="iv_user_qr_rendered" type="id" />
+    <!-- ID for High_Five User Qr Fragment -->
+    <item name="nav_user_qr_fragment" type="id" />
     <item name="tv_user_qr_info" type="id" />
     <item name="tv_notice_qr_fragment" type="id" />
+    <item name="wv_qr_generated" type="id" />
 </resources>

@@ -18,11 +18,14 @@
     <string name="high_five">Highfive</string>
     <string name="high_five_fragment_nav_title">High-Five</string>
     <string name="high_five_fragment_title">High-Five Fragment. QR Code would be contained</string>
-    <string name="qr_code">QR Code</string>
-    <string name="user_qr_code_info">This is Current User\'s QR Code.</string>
-    <string name="qr_description">Indicates QR code to record meeting</string>
+
 
     <!-- Strings related to Post Fragment -->
     <string name="post_fragment_nav_title">Post</string>
     <string name="post_fragment_title">Post Fragment</string>
+
+    <!-- Strings related to User Qr Fragment -->
+    <string name="wv_qr_code">QR Code</string>
+    <string name="user_qr_code_info">This is QR code fragment.</string>
+    <string name="qr_description">Indicates QR code for record</string>
 </resources>
