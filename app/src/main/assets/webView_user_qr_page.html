@@ -1,47 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,
 						initial-scale=1.0" />
-    <title>QR Code</title>
+<title>QR Code</title>
 
-    <style>
-        body,
-        header {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
-    </script>
-</head>
+<style>
+    body {
+        margin: 5;
+        padding: 5;
+        background-color: #ffffff;
+        font-family: "Open Sans", sans-serif;
+        width: fit-content;
+        height: fit-content;
+    }
 
-<body>
-    <main>
-        <div id="qrcode"></div>
-    </main>
+    header {
+        display: flex;
+        flex-direction: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+</style>
 
-    <!--
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+</script>
+
+<div id="qrcode"></div>
+
+<!--
         * Generates QR Code which contains uid.
         * uid is used to identify user.
         * (TBA) Contains a text to used for generating .json file for record to DB
     -->
-    <script>
-        // https://davidshimjs.github.io/qrcodejs/
-        var qrCode = new QRCode("qrcode",
-            {
-                text: "https://www.seoultech.ac.kr",
-                width: 150,
-                height: 150,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
-    </script>
-</body>
+<script>
+    // https://davidshimjs.github.io/qrcodejs/
+    var qrCode = new QRCode("qrcode",
+        {
+            text: "https://www.seoultech.ac.kr",
+            width: 150,
+            height: 150,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+</script>
 
 </html>

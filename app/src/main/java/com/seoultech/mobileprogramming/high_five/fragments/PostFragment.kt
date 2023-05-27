@@ -42,14 +42,18 @@ class PostFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val multiplePermissionsCode = 100
 
-    val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
+    val database =
+        Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
     val databaseReference = database.getReference(userId)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_FROM_ALBUM) {
             photoUri = data?.data
+            Log.d("highfive", "SUCCESS to get photo uri: $photoUri")
             binding.uploadImage.setImageURI(photoUri)
+        } else {
+            Log.d("highfive", "FAIL to get photo uri")
         }
     }
 
@@ -83,7 +87,7 @@ class PostFragment : Fragment() {
 
     fun addPost(photoUri: Uri?, content: String) {
 
-        val post: Post = Post(photoUri!!.toString(), content, System.currentTimeMillis(), )
+        val post: Post = Post(photoUri!!.toString(), content, System.currentTimeMillis())
         Log.d("highfive", "$post")
         databaseReference.child("post").push().setValue(post)
         TODO("photoUri, tv_Input 없을 때 처리")
