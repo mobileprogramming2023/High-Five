@@ -21,8 +21,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val userName = getUserName()
-        val userPhotoUrl = getUserPhotoUrl()
+        Log.d("highfive", "mainactivity created")
+        val userName = getUserInfo()
 
         var homeFragment = HomeFragment()
         var postFragment = PostFragment()
@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.navigationView.setOnItemSelectedListener {
+            Log.d("highfive", "${it.itemId}")
             when(it.itemId) {
                 R.id.homeFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, homeFragment) }
                 R.id.postFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, postFragment) }
@@ -46,6 +47,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun getUserInfo(): String? {
+        val intent = getIntent()
+        Log.d("highfive", intent.toString())
+
+        val name: String? = intent.getStringExtra("name")
+        val photoUrl: String? = intent.getStringExtra("photoUrl")
+
+        binding.tvName.text = name
+        Glide.with(this).load(photoUrl).into(binding.ivProfile)
+
+        return name
+    }
     fun getUserName(): String? {
         val intent = getIntent()
         val name: String? = intent.getStringExtra("name")
