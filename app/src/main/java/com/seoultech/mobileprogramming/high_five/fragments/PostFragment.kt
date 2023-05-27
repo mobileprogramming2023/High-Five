@@ -7,12 +7,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.BuildConfig
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.seoultech.mobileprogramming.high_five.BuildConfig
 import com.seoultech.mobileprogramming.high_five.DTO.Post
 import com.seoultech.mobileprogramming.high_five.databinding.FragmentPostBinding
 
@@ -35,7 +37,7 @@ class PostFragment : Fragment() {
     var PICK_IMAGE_FROM_ALBUM = 0
     var photoUri: Uri? = null
 
-    val auth = FirebaseAuth.getInstance() // Initialize firebase Authenticate Object
+    val auth = FirebaseAuth.getInstance()
     val currentUser = auth.currentUser
     val userId = currentUser?.uid.toString()
 
@@ -44,6 +46,9 @@ class PostFragment : Fragment() {
 
     val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
     val databaseReference = database.getReference(userId)
+    val storage = FirebaseStorage.getInstance(BuildConfig.FIREBASE_STORAGE_URL)
+    val storageReference = storage.getReference()
+    var userStorageReference = storageReference.child(userId)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -64,7 +69,7 @@ class PostFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPostBinding.inflate(inflater, container, false)
 
         binding.btnInsertImg.setOnClickListener {
@@ -74,19 +79,46 @@ class PostFragment : Fragment() {
         }
 
         binding.btnSave.setOnClickListener {
-            addPost(photoUri, binding.tvInput.text.toString())
-            Log.d("highfive", "addPost() called")
-        }
+            if ((binding.tvInput.text?.length ?: 0) == 0) {
+                Toast.makeText(this.requireContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            }
+            else if (photoUri == null) {
+                addPost("", binding.tvInput.text.toString())
+            }
+            else {
+                val imageStorageReference = userStorageReference.child("post/images/${photoUri!!.lastPathSegment}")
+                var uploadTask = imageStorageReference.putFile(photoUri!!)
+                lateinit var downloadUri: Uri
 
+                uploadTask.addOnFailureListener {
+                    TODO("Handle uncessessful uploads")
+                }.addOnSuccessListener { taskSnapshot ->
+                    Log.d("highfive", "$taskSnapshot")
+                }
+
+                val urlTask = uploadTask.continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let { throw it }
+                    }
+                    imageStorageReference.downloadUrl
+                }.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        downloadUri = task.result
+                        addPost(downloadUri.toString(), binding.tvInput.text.toString())
+                        Log.d("highfive", "$downloadUri")
+                    } else {
+                        TODO("Handle failures")
+                    }
+                }
+            }
+        }
         return binding.root
     }
 
-    fun addPost(photoUri: Uri?, content: String) {
-
-        val post: Post = Post(photoUri!!.toString(), content, System.currentTimeMillis(), )
-        Log.d("highfive", "$post")
+    fun addPost(imageDownloadUri: String, content: String) {
+        val testFriendUid = "freindUid_test"
+        val post: Post = Post(imageDownloadUri, content, testFriendUid, System.currentTimeMillis(), "서울시 노원구 공릉동")
         databaseReference.child("post").push().setValue(post)
-        TODO("photoUri, tv_Input 없을 때 처리")
     }
 
     companion object {
