@@ -44,8 +44,7 @@ class PostFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val multiplePermissionsCode = 100
 
-    val database =
-        Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
+    val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
     val databaseReference = database.getReference(userId)
     val storage = FirebaseStorage.getInstance(BuildConfig.FIREBASE_STORAGE_URL)
     val storageReference = storage.getReference()
@@ -55,10 +54,7 @@ class PostFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_FROM_ALBUM) {
             photoUri = data?.data
-            Log.d("highfive", "SUCCESS to get photo uri: $photoUri")
             binding.uploadImage.setImageURI(photoUri)
-        } else {
-            Log.d("highfive", "FAIL to get photo uri")
         }
     }
 
@@ -119,16 +115,9 @@ class PostFragment : Fragment() {
         return binding.root
     }
 
-<<<<<<< HEAD
     fun addPost(imageDownloadUri: String, content: String) {
         val testFriendUid = "freindUid_test"
         val post: Post = Post(imageDownloadUri, content, testFriendUid, System.currentTimeMillis(), "서울시 노원구 공릉동")
-=======
-    fun addPost(photoUri: Uri?, content: String) {
-
-        val post: Post = Post(photoUri!!.toString(), content, System.currentTimeMillis())
-        Log.d("highfive", "$post")
->>>>>>> 51ab0800e9b5a72a85a5b8128d3e66cfdfa41cea
         databaseReference.child("post").push().setValue(post)
     }
 
