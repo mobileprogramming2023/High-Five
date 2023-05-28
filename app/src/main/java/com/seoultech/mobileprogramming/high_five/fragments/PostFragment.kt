@@ -1,15 +1,23 @@
 package com.seoultech.mobileprogramming.high_five.fragments
 
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -17,6 +25,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.seoultech.mobileprogramming.high_five.BuildConfig
 import com.seoultech.mobileprogramming.high_five.DTO.Post
 import com.seoultech.mobileprogramming.high_five.databinding.FragmentPostBinding
+import java.util.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,10 +52,11 @@ class PostFragment : Fragment() {
     val userId = currentUser?.uid.toString()
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private val multiplePermissionsCode = 100
+    lateinit var location: Location
+    lateinit var locationRequest: LocationRequest
+    private val REQUEST_PERMISSION_LOCATION = 10
 
-    val database =
-        Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
+    val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
     val databaseReference = database.getReference(userId)
     val storage = FirebaseStorage.getInstance(BuildConfig.FIREBASE_STORAGE_URL)
     val storageReference = storage.getReference()
@@ -72,6 +83,14 @@ class PostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPostBinding.inflate(inflater, container, false)
+
+        locationRequest = LocationRequest.create().apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+
+        if (checkPermissionForLocation(this.requireContext())) {
+            startLocationUpdates()
+        }
 
         binding.btnInsertImg.setOnClickListener {
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
@@ -118,13 +137,70 @@ class PostFragment : Fragment() {
     fun addPost(imageDownloadUri: String, content: String) {
         val testFriendUid = "freindUid_test"
         val post: Post = Post(
-            imageDownloadUri,
-            content,
-            testFriendUid,
-            System.currentTimeMillis(),
-            "서울시 노원구 공릉동"
+            imageDownloadUri = imageDownloadUri,
+            contents = content,
+            friendUserId = testFriendUid,
+            timestamp = System.currentTimeMillis(),
+            latitude = location.latitude,
+            longitude = location.longitude
         )
         databaseReference.child("post").push().setValue(post)
+    }
+
+    fun checkPermissionForLocation(context: Context): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (context.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                true
+            } else {
+                ActivityCompat.requestPermissions(this.requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_PERMISSION_LOCATION)
+                false
+            }
+        } else {
+            true
+        }
+    }
+
+    private fun startLocationUpdates() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireActivity())
+        if (ActivityCompat.checkSelfPermission(this.requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this.requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+    }
+
+    val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            super.onLocationResult(locationResult)
+            locationResult.lastLocation
+            locationResult.lastLocation?.let { onLocationChanged(it) }
+            location = locationResult.lastLocation!!
+            location.latitude = locationResult.lastLocation?.latitude ?: 0.0
+            location.longitude = locationResult.lastLocation?.longitude ?: 0.0
+//            TODO("location이 null일 때 처리")
+        }
+    }
+
+    fun onLocationChanged(location: Location) {
+        val lastLocation = location
+        Log.d("highfive", "위도: ${location.latitude}, 경도: ${location.longitude}, ${lastLocation.bearing}")
+        val currentAddress: String = getCurrentAddress(location.latitude, location.longitude)
+        binding.tvLocation.text = currentAddress
+    }
+
+    fun getCurrentAddress(latitude: Double, longitude: Double): String {
+        val geocoder = Geocoder(this.requireContext(), Locale.getDefault())
+        val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 10)
+
+        if (addressList == null || addressList.size == 0) {
+            Toast.makeText(this.requireContext(), "주소를 발견할 수 없습니다.", Toast.LENGTH_SHORT).show()
+            return "주소 없음"
+        }
+        else {
+            val address: Address = addressList[0]
+            return address.getAddressLine(0).toString()
+        }
     }
 
     companion object {

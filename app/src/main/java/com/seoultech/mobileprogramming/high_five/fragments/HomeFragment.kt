@@ -2,11 +2,14 @@ package com.seoultech.mobileprogramming.high_five.fragments
 
 import android.content.Context
 import android.graphics.Rect
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -81,12 +84,14 @@ class HomeFragment : Fragment() {
                     val postId = postDataSnapshot.value
                     val postContents: String = postDataSnapshot.child("contents").value as String
                     val postFriendUserId: String = postDataSnapshot.child("friendUserId").value as String
-                    val postLocation: String = postDataSnapshot.child("location").value as String
+                    val postLatitude: Double = postDataSnapshot.child("latitude").value as Double
+                    val postLonitude: Double = postDataSnapshot.child("longitude").value as Double
                     val postImage: String = postDataSnapshot.child("imageDownloadUri").value as String
                     val postTimestamp: Long = postDataSnapshot.child("timestamp").value as Long
                     val post = Post(contents = postContents,
                         friendUserId = postFriendUserId,
-                        location = postLocation,
+                        latitude =postLatitude,
+                        longitude = postLonitude,
                         imageDownloadUri = postImage,
                         timestamp = postTimestamp)
                     postList.add(post)
@@ -135,25 +140,22 @@ class PostAdapter(val postList: MutableList<Post>): RecyclerView.Adapter<PostAda
             val dateFormat = SimpleDateFormat("MM-dd E kk:mm", Locale("ko", "KR"))
             val strDate = dateFormat.format(date)
             binding.tvPostDatetime.text = strDate
-            binding.tvPostLocation.text = post.location
-//            friendViewBinding.root.setOnClickListener {
-//                Glide.with(this.context).load(post.imageDownloadUri).load(postViewBinding.postImage)
-//                postViewBinding.postFriendName.text = post.friendUserId
-//                postViewBinding.postContents.text = post.contents
-//                val balloon = Balloon.Builder(context)
-//                    .setLayout(postViewBinding.ConstraintLayout)
-//                    .setArrowSize(10)
-//                    .setArrowColorMatchBalloon(true)
-//                    .setArrowOrientation(ArrowOrientation.TOP)
-//                    .setArrowPosition(0.5f)
-//                    .setWidthRatio(0.55f)
-//                    .setHeight(250)
-//                    .setCornerRadius(4f)
-//                    .setBackgroundColor(ContextCompat.getColor(context, R.color.gray))
-//                    .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
-//                    .build()
-//                balloon.showAlignBottom(friendViewBinding.root)
-//            }
+            binding.tvPostLocation.text = getCurrentAddress(post.latitude, post.longitude)
+//            TODO("위치 보여주기")
+        }
+
+        fun getCurrentAddress(latitude: Double, longitude: Double): String {
+            val geocoder = Geocoder(this.context, Locale.getDefault())
+            val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 10)
+
+            if (addressList == null || addressList.size == 0) {
+                Toast.makeText(this.context, "주소를 발견할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                return "주소 없음"
+            }
+            else {
+                val address: Address = addressList[0]
+                return address.getAddressLine(0).toString()
+            }
         }
     }
 
