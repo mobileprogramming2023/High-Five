@@ -8,7 +8,7 @@
     tools:context=".fragments.UserQrFragment">
 
     <TextView
-        android:id="@id/tv_notice_qr_fragment"
+        android:id="@+id/tv_notice_qr_fragment"
         android:layout_width="244dp"
         android:layout_height="25dp"
         android:layout_marginStart="126dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <WebView
-        android:id="@id/wv_qr_generated"
+        android:id="@+id/wv_qr_generated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,7 +32,7 @@
         app:layout_constraintVertical_bias="0.397" />
 
     <TextView
-        android:id="@id/tv_user_qr_info"
+        android:id="@+id/tv_user_qr_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/qr_description"
