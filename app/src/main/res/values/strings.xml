@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">High-Five</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="plus">+</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -22,10 +20,8 @@
 
     <!-- Strings related to Post Fragment -->
     <string name="post_fragment_nav_title">Post</string>
-    <string name="post_fragment_title">Post Fragment</string>
 
     <!-- Strings related to User Qr Fragment -->
-    <string name="wv_qr_code">QR Code</string>
     <string name="user_qr_code_info">This is QR code fragment.</string>
     <string name="qr_description">Indicates QR code for record</string>
 </resources>
