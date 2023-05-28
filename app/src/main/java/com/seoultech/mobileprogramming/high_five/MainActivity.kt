@@ -4,10 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.seoultech.mobileprogramming.high_five.databinding.ActivityMainBinding
-import com.seoultech.mobileprogramming.high_five.fragments.HomeFragment
-import com.seoultech.mobileprogramming.high_five.fragments.MapsFragment
-import com.seoultech.mobileprogramming.high_five.fragments.PostFragment
-import com.seoultech.mobileprogramming.high_five.fragments.UserProfileFragment
+import com.seoultech.mobileprogramming.high_five.fragments.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         val postFragment = PostFragment()
         val mapsFragment = MapsFragment()
         val userProfileFragment = UserProfileFragment()
+        val userQrFragment = UserQrFragment()
 
         fragmentManager.commit {
             add(binding.fragmentContainerView.id, homeFragment)
@@ -33,6 +31,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.postFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, postFragment) }
                 R.id.mapFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, mapsFragment) }
                 R.id.userPageFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, userProfileFragment) }
+                R.id.nav_user_qr_fragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, userQrFragment) }
             }
             true
         }
