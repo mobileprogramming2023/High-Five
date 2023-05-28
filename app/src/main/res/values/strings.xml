@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">High-Five</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -16,7 +17,6 @@
     <string name="high_five">Highfive</string>
     <string name="high_five_fragment_nav_title">High-Five</string>
     <string name="high_five_fragment_title">High-Five Fragment. QR Code would be contained</string>
-
 
     <!-- Strings related to Post Fragment -->
     <string name="post_fragment_nav_title">Post</string>

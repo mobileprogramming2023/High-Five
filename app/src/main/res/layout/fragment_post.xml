@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:minWidth="0dp"
         android:minHeight="0dp"
-        android:text="@string/plus"
+        android:text="+"
         app:backgroundTint="@color/gray"
         app:layout_constraintStart_toStartOf="@+id/tv_사진"
         app:layout_constraintTop_toBottomOf="@+id/tv_사진" />
