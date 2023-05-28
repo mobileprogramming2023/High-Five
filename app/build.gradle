@@ -47,7 +47,6 @@ android {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
 
 dependencies {
 
