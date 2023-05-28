@@ -4,37 +4,42 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import com.bumptech.glide.Glide
 >>>>>>> 51ab0800e9b5a72a85a5b8128d3e66cfdfa41cea
+=======
+>>>>>>> e2ec0dcd4c2414d7ffc38fa9416b4e29c90c10ba
 import com.seoultech.mobileprogramming.high_five.databinding.ActivityMainBinding
-import com.seoultech.mobileprogramming.high_five.fragments.HomeFragment
-import com.seoultech.mobileprogramming.high_five.fragments.MapsFragment
-import com.seoultech.mobileprogramming.high_five.fragments.PostFragment
-import com.seoultech.mobileprogramming.high_five.fragments.UserProfileFragment
-import com.seoultech.mobileprogramming.high_five.fragments.UserQrFragment
+import com.seoultech.mobileprogramming.high_five.fragments.*
 
 class MainActivity : AppCompatActivity() {
-    // Values for Log.d
-    private val activityTag = "MainActivity"
-    private val fragmentTag = "Fragment"
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     val binding by lazy {ActivityMainBinding.inflate(layoutInflater)}
     val fragmentManager = supportFragmentManager
 =======
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 >>>>>>> 51ab0800e9b5a72a85a5b8128d3e66cfdfa41cea
+=======
+    val binding by lazy {ActivityMainBinding.inflate(layoutInflater)}
+    val fragmentManager = supportFragmentManager
+>>>>>>> e2ec0dcd4c2414d7ffc38fa9416b4e29c90c10ba
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e2ec0dcd4c2414d7ffc38fa9416b4e29c90c10ba
         val homeFragment = HomeFragment()
         val postFragment = PostFragment()
         val mapsFragment = MapsFragment()
         val userProfileFragment = UserProfileFragment()
+<<<<<<< HEAD
 =======
         var homeFragment = HomeFragment()
         var postFragment = PostFragment()
@@ -49,49 +54,27 @@ class MainActivity : AppCompatActivity() {
 =======
             add(binding.fragmentContainerView.id, userProfileFragment)
 >>>>>>> 51ab0800e9b5a72a85a5b8128d3e66cfdfa41cea
+=======
+        val userQrFragment = UserQrFragment()
+
+        fragmentManager.commit {
+            add(binding.fragmentContainerView.id, homeFragment)
+>>>>>>> e2ec0dcd4c2414d7ffc38fa9416b4e29c90c10ba
         }
 
-        /*
-        Bottom Navigation View:
-        https://developer.android.com/guide/navigation/navigation-ui#bottom_navigation
-        It connects to each fragments: Home, Posting, Maps, User Profile, User QR Code
-        */
         binding.navigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.homeFragment -> fragmentManager.commit {
-                    replace(
-                        binding.fragmentContainerView.id, homeFragment
-                    )
-                }
-
-                R.id.postFragment -> fragmentManager.commit {
-                    replace(
-                        binding.fragmentContainerView.id, postFragment
-                    )
-                }
-
-                R.id.mapFragment -> fragmentManager.commit {
-                    replace(
-                        binding.fragmentContainerView.id, mapsFragment
-                    )
-                }
-
-                R.id.userPageFragment -> fragmentManager.commit {
-                    replace(
-                        binding.fragmentContainerView.id, userProfileFragment
-                    )
-                }
-
-                R.id.nav_user_qr_fragment -> fragmentManager.commit {
-                    replace(
-                        binding.fragmentContainerView.id, userQrFragment
-                    )
-                }
+            when(it.itemId) {
+                R.id.homeFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, homeFragment) }
+                R.id.postFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, postFragment) }
+                R.id.mapFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, mapsFragment) }
+                R.id.userPageFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, userProfileFragment) }
+                R.id.userQRFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, userQrFragment) }
             }
             true
         }
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     fun getUserName(): String? {
@@ -173,4 +156,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 >>>>>>> 51ab0800e9b5a72a85a5b8128d3e66cfdfa41cea
+=======
+>>>>>>> e2ec0dcd4c2414d7ffc38fa9416b4e29c90c10ba
 }

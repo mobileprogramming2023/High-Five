@@ -14,13 +14,4 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.splash" parent="Theme.HighFive">
-        <item name="windowActionBar">false</item>
-        <item name="android:windowFullscreen">true</item>
-    </style>
-
-    <style name="ThemeOverlay.HighFive.FullscreenContainer" parent="">
-        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
-        <item name="fullscreenTextColor">@color/light_blue_A200</item>
-    </style>
 </resources>

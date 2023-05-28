@@ -1,15 +1,19 @@
 package com.seoultech.mobileprogramming.high_five.fragments
 
 import android.content.Context
+import android.graphics.Rect
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -18,13 +22,11 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.seoultech.mobileprogramming.high_five.DTO.Post
-import com.seoultech.mobileprogramming.high_five.R
 import com.seoultech.mobileprogramming.high_five.databinding.FragmentHomeBinding
 import com.seoultech.mobileprogramming.high_five.databinding.FriendViewBinding
 import com.seoultech.mobileprogramming.high_five.databinding.PostViewBinding
-import com.skydoves.balloon.ArrowOrientation
-import com.skydoves.balloon.Balloon
-import com.skydoves.balloon.BalloonAnimation
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -49,7 +51,7 @@ class HomeFragment : Fragment() {
     val userId = currentUser?.uid.toString()
 
     val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
-    val currentUserDB = database.getReference(userId)
+    val postDB = database.getReference("post")
 
     var postList = mutableListOf<Post>()
 
@@ -70,7 +72,8 @@ class HomeFragment : Fragment() {
         val postAdapter = PostAdapter(postList)
         binding.postRecyclerView.adapter = postAdapter
         binding.postRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
-        Log.d("highfive", "postAdapter $postList")
+        val phOffsetItemDecoration =  PhOffsetItemDecoration(30)
+        binding.postRecyclerView.addItemDecoration(phOffsetItemDecoration)
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -79,18 +82,19 @@ class HomeFragment : Fragment() {
                     val postId = postDataSnapshot.value
                     val postContents: String = postDataSnapshot.child("contents").value as String
                     val postFriendUserId: String = postDataSnapshot.child("friendUserId").value as String
-                    val postLocation: String = postDataSnapshot.child("location").value as String
+                    val postLatitude: Double = postDataSnapshot.child("latitude").value as Double
+                    val postLonitude: Double = postDataSnapshot.child("longitude").value as Double
                     val postImage: String = postDataSnapshot.child("imageDownloadUri").value as String
                     val postTimestamp: Long = postDataSnapshot.child("timestamp").value as Long
                     val post = Post(contents = postContents,
                         friendUserId = postFriendUserId,
-                        location = postLocation,
+                        latitude =postLatitude,
+                        longitude = postLonitude,
                         imageDownloadUri = postImage,
                         timestamp = postTimestamp)
                     postList.add(post)
                     postAdapter.notifyDataSetChanged()
                 }
-                Log.d("highfive", "$postList")
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -98,7 +102,7 @@ class HomeFragment : Fragment() {
                 Log.w( "loadPost:onCancelled", databaseError.toException())
             }
         }
-        currentUserDB.child("post").addListenerForSingleValueEvent(postListener)
+        postDB.child(userId).addListenerForSingleValueEvent(postListener)
 
         return binding.root
     }
@@ -125,43 +129,69 @@ class HomeFragment : Fragment() {
 }
 
 class PostAdapter(val postList: MutableList<Post>): RecyclerView.Adapter<PostAdapter.ViewHolder>() {
-    class ViewHolder(val friendViewBinding: FriendViewBinding, val postViewBinding: PostViewBinding, val context: Context) : RecyclerView.ViewHolder(friendViewBinding.root) {
+
+    class ViewHolder(val binding: FriendViewBinding, val context: Context) : RecyclerView.ViewHolder(binding.root) {
+        private val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
+
         fun bind(post: Post) {
-            friendViewBinding.tvFriendName.text = post.friendUserId
-            friendViewBinding.tvPostContents.text = post.contents
-            friendViewBinding.root.setOnClickListener {
-                Glide.with(this.context).load(post.imageDownloadUri).load(postViewBinding.postImage)
-                postViewBinding.postFriendName.text = post.friendUserId
-                postViewBinding.postContents.text = post.contents
-                val balloon = Balloon.Builder(context)
-                    .setLayout(postViewBinding.ConstraintLayout)
-                    .setArrowSize(10)
-                    .setArrowColorMatchBalloon(true)
-                    .setArrowOrientation(ArrowOrientation.TOP)
-                    .setArrowPosition(0.5f)
-                    .setWidthRatio(0.55f)
-                    .setHeight(250)
-                    .setCornerRadius(4f)
-                    .setBackgroundColor(ContextCompat.getColor(context, R.color.gray))
-                    .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
-                    .build()
-                balloon.showAlignBottom(friendViewBinding.root)
+            database.getReference("user").child(post.friendUserId).get().addOnSuccessListener {
+                binding.tvFriendName.text = it.child("userName").value.toString()
+            }.addOnFailureListener{
+                Log.e("firebase", "Error getting data", it)
+            }
+            binding.tvPostContents.text = post.contents
+            val date = Date(post.timestamp)
+            val dateFormat = SimpleDateFormat("MM-dd E kk:mm", Locale("ko", "KR"))
+            val strDate = dateFormat.format(date)
+            binding.tvPostDatetime.text = strDate
+            binding.tvPostLocation.text = getCurrentAddress(post.latitude, post.longitude)
+        }
+
+        fun getCurrentAddress(latitude: Double, longitude: Double): String {
+            val geocoder = Geocoder(this.context, Locale.getDefault())
+            val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 10)
+
+            if (addressList == null || addressList.size == 0) {
+                Toast.makeText(this.context, "주소를 발견할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                return "주소 없음"
+            }
+            else {
+                val address: Address = addressList[0]
+                return address.getAddressLine(0).toString()
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val friendViewBinding = FriendViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val postViewBinding = PostViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(friendViewBinding, postViewBinding, parent.context)
+        return ViewHolder(friendViewBinding, parent.context)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val post = postList.get(position)
         holder.bind(post)
+        holder.apply {
+            Glide.with(context).load(post.imageDownloadUri).override(500).into(binding.imageView)
+        }
     }
 
     override fun getItemCount(): Int {
         return postList.size
+    }
+}
+
+class PhOffsetItemDecoration(val padding: Int) : ItemDecoration() {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
+        super.getItemOffsets(outRect, view, parent, state)
+        outRect.top = padding
+        outRect.bottom = padding
+        outRect.left = padding
+        outRect.right = padding
+
     }
 }

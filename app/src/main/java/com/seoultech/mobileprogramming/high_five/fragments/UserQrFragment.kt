@@ -80,7 +80,6 @@ class UserQrFragment : Fragment() {
         val currentUser = auth.currentUser
         val userId = currentUser?.uid
 
-
         // returns the html code for the QR code
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +

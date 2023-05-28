@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:minWidth="0dp"
         android:minHeight="0dp"
-        android:text="@string/plus"
+        android:text="+"
         app:backgroundTint="@color/gray"
         app:layout_constraintStart_toStartOf="@+id/tv_사진"
         app:layout_constraintTop_toBottomOf="@+id/tv_사진" />
@@ -36,11 +36,20 @@
         app:layout_constraintStart_toStartOf="@+id/tv_사진"
         app:layout_constraintTop_toBottomOf="@+id/uploadImage" />
 
+    <TextView
+        android:id="@+id/tv_위치"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:text="위치"
+        app:layout_constraintStart_toStartOf="@+id/tv_내용"
+        app:layout_constraintTop_toBottomOf="@+id/uploadImage" />
+
     <Button
         android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="32dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,5 +71,13 @@
         android:hint="친구와 무엇을 했나요?"
         app:layout_constraintStart_toStartOf="@+id/tv_내용"
         app:layout_constraintTop_toBottomOf="@+id/tv_내용" />
+
+    <TextView
+        android:id="@+id/tv_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/tv_위치"
+        app:layout_constraintTop_toBottomOf="@+id/tv_위치" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
