@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:text="name"
         android:textSize="20sp"
+        android:textColor="@color/pink"
         app:layout_constraintStart_toEndOf="@+id/iv_friend_photo"
         app:layout_constraintTop_toTopOf="@+id/iv_friend_photo" />
 
