@@ -57,7 +57,7 @@ class PostFragment : Fragment() {
     private val REQUEST_PERMISSION_LOCATION = 10
 
     val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
-    val databaseReference = database.getReference(userId)
+    val databaseReference = database.getReference("post")
     val storage = FirebaseStorage.getInstance(BuildConfig.FIREBASE_STORAGE_URL)
     val storageReference = storage.getReference()
     var userStorageReference = storageReference.child(userId)
@@ -105,7 +105,7 @@ class PostFragment : Fragment() {
                 addPost("", binding.tvInput.text.toString())
             } else {
                 val imageStorageReference =
-                    userStorageReference.child("post/images/${photoUri!!.lastPathSegment}")
+                    userStorageReference.child("${userId}/post/images/${photoUri!!.lastPathSegment}")
                 var uploadTask = imageStorageReference.putFile(photoUri!!)
                 lateinit var downloadUri: Uri
 
@@ -135,7 +135,7 @@ class PostFragment : Fragment() {
     }
 
     fun addPost(imageDownloadUri: String, content: String) {
-        val testFriendUid = "freindUid_test"
+        val testFriendUid = "zg5MSmjjw2crUrL2Omt5oqKECax2"
         val post: Post = Post(
             imageDownloadUri = imageDownloadUri,
             contents = content,
@@ -144,7 +144,7 @@ class PostFragment : Fragment() {
             latitude = location.latitude,
             longitude = location.longitude
         )
-        databaseReference.child("post").push().setValue(post)
+        databaseReference.child(userId).push().setValue(post)
     }
 
     fun checkPermissionForLocation(context: Context): Boolean {

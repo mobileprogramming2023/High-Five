@@ -19,6 +19,9 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.seoultech.mobileprogramming.high_five.DTO.User
 import com.seoultech.mobileprogramming.high_five.databinding.ActivityLoginBinding
 import com.seoultech.mobileprogramming.high_five.fragments.UserProfileFragment
 
@@ -28,6 +31,9 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
     private lateinit var btnGoogleSignIn: SignInButton
     private lateinit var auth: FirebaseAuth
     private lateinit var googleApiClient: GoogleApiClient
+
+    private val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
+    val databaseReference = database.getReference("user")
 
     companion object {
         private const val REQ_SIGN_GOOGLE = 100
@@ -61,10 +67,8 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             .build()
 
         binding.btnGoogle.setOnClickListener {
-            Log.d("highfive", "btnGoogle clicked")
             val intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient) // google이 만들어놓은 intent로 넘어옴
             startActivityForResult(intent, REQ_SIGN_GOOGLE);
-            Log.d("highfive", intent.toString())
         }
     }
 
@@ -87,7 +91,6 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             if (result != null) {
                 if (result.isSuccess()) {
                     val account: GoogleSignInAccount? = result.signInAccount
-                    Log.d("highfive", "account: $account")
                     resultLogin(account)
                 }
             }
@@ -105,6 +108,12 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                             "Login Success",
                             Toast.LENGTH_SHORT,
                         ).show()
+                        val user = User(
+                            userId = auth.currentUser!!.uid.toString(),
+                            userName = auth.currentUser!!.displayName.toString(),
+                            userPhotoUri = auth.currentUser!!.photoUrl.toString()
+                        )
+                        databaseReference.child(auth.currentUser!!.uid.toString()).setValue(user)
                         val intent = Intent(this, MainActivity::class.java)
                         intent.putExtra("name", account.displayName)
                         intent.putExtra("photoUrl", account.photoUrl.toString())

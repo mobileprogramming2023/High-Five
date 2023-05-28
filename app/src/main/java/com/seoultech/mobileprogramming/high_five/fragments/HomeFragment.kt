@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
     val userId = currentUser?.uid.toString()
 
     val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
-    val currentUserDB = database.getReference(userId)
+    val postDB = database.getReference("post")
 
     var postList = mutableListOf<Post>()
 
@@ -75,8 +75,6 @@ class HomeFragment : Fragment() {
         val phOffsetItemDecoration =  PhOffsetItemDecoration(30)
         binding.postRecyclerView.addItemDecoration(phOffsetItemDecoration)
 
-        Log.d("highfive", "postAdapter $postList")
-
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 postList.clear()
@@ -97,7 +95,6 @@ class HomeFragment : Fragment() {
                     postList.add(post)
                     postAdapter.notifyDataSetChanged()
                 }
-                Log.d("highfive", "$postList")
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -105,7 +102,7 @@ class HomeFragment : Fragment() {
                 Log.w( "loadPost:onCancelled", databaseError.toException())
             }
         }
-        currentUserDB.child("post").addListenerForSingleValueEvent(postListener)
+        postDB.child(userId).addListenerForSingleValueEvent(postListener)
 
         return binding.root
     }
@@ -132,16 +129,22 @@ class HomeFragment : Fragment() {
 }
 
 class PostAdapter(val postList: MutableList<Post>): RecyclerView.Adapter<PostAdapter.ViewHolder>() {
+
     class ViewHolder(val binding: FriendViewBinding, val context: Context) : RecyclerView.ViewHolder(binding.root) {
+        private val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
+
         fun bind(post: Post) {
-            binding.tvFriendName.text = post.friendUserId
+            database.getReference("user").child(post.friendUserId).get().addOnSuccessListener {
+                binding.tvFriendName.text = it.child("userName").value.toString()
+            }.addOnFailureListener{
+                Log.e("firebase", "Error getting data", it)
+            }
             binding.tvPostContents.text = post.contents
             val date = Date(post.timestamp)
             val dateFormat = SimpleDateFormat("MM-dd E kk:mm", Locale("ko", "KR"))
             val strDate = dateFormat.format(date)
             binding.tvPostDatetime.text = strDate
             binding.tvPostLocation.text = getCurrentAddress(post.latitude, post.longitude)
-//            TODO("위치 보여주기")
         }
 
         fun getCurrentAddress(latitude: Double, longitude: Double): String {
@@ -161,7 +164,6 @@ class PostAdapter(val postList: MutableList<Post>): RecyclerView.Adapter<PostAda
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val friendViewBinding = FriendViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val postViewBinding = PostViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(friendViewBinding, parent.context)
     }
 
