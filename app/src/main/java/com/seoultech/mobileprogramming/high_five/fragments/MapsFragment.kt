@@ -1,21 +1,32 @@
 package com.seoultech.mobileprogramming.high_five.fragments
 
-import androidx.fragment.app.Fragment
-
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.seoultech.mobileprogramming.high_five.DTO.Post
 import com.seoultech.mobileprogramming.high_five.R
 
 class MapsFragment : Fragment() {
+
+    val auth = FirebaseAuth.getInstance()
+    val currentUser = auth.currentUser
+    val userId = currentUser?.uid.toString()
+
+    val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
+    val postDB = database.getReference("post")
+
+    var postList = mutableListOf<Post>()
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -27,9 +38,25 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        database.getReference("post").child(userId).get().addOnSuccessListener {
+            var postLatitude: Double = 0.0;
+            var postLongitude: Double = 0.0;
+            for (postDataSnapshot in it.children) {
+                postLatitude = postDataSnapshot.child("latitude").value as Double
+                postLongitude = postDataSnapshot.child("longitude").value as Double
+                val markerOptions = MarkerOptions()
+                markerOptions
+                    .position(LatLng(postLatitude, postLongitude))
+                    .title("marker")
+                googleMap.addMarker(markerOptions)
+            }
+            googleMap.moveCamera(
+                CameraUpdateFactory
+                    .newLatLngZoom(LatLng(postLatitude, postLongitude), 13F)
+            )
+        }.addOnFailureListener{
+            Log.e("firebase", "Error getting data", it)
+        }
     }
 
     override fun onCreateView(
