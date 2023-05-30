@@ -24,7 +24,6 @@ import com.google.firebase.ktx.Firebase
 import com.seoultech.mobileprogramming.high_five.DTO.Post
 import com.seoultech.mobileprogramming.high_five.databinding.FragmentHomeBinding
 import com.seoultech.mobileprogramming.high_five.databinding.FriendViewBinding
-import com.seoultech.mobileprogramming.high_five.databinding.PostViewBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
