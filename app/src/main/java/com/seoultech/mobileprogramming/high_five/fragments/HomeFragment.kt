@@ -83,13 +83,13 @@ class HomeFragment : Fragment() {
                     val postContents: String = postDataSnapshot.child("contents").value as String
                     val postFriendUserId: String = postDataSnapshot.child("friendUserId").value as String
                     val postLatitude: Double = postDataSnapshot.child("latitude").value as Double
-                    val postLonitude: Double = postDataSnapshot.child("longitude").value as Double
+                    val postLongitude: Double = postDataSnapshot.child("longitude").value as Double
                     val postImage: String = postDataSnapshot.child("imageDownloadUri").value as String
                     val postTimestamp: Long = postDataSnapshot.child("timestamp").value as Long
                     val post = Post(contents = postContents,
                         friendUserId = postFriendUserId,
-                        latitude =postLatitude,
-                        longitude = postLonitude,
+                        latitude = postLatitude,
+                        longitude = postLongitude,
                         imageDownloadUri = postImage,
                         timestamp = postTimestamp)
                     postList.add(post)
