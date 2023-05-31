@@ -81,12 +81,14 @@ class HomeFragment : Fragment() {
                     val postId = postDataSnapshot.value
                     val postContents: String = postDataSnapshot.child("contents").value as String
                     val postFriendUserId: String = postDataSnapshot.child("friendUserId").value as String
+                    val postFriendName: String = postDataSnapshot.child("friendName").value as String
                     val postLatitude: Double = postDataSnapshot.child("latitude").value as Double
                     val postLongitude: Double = postDataSnapshot.child("longitude").value as Double
                     val postImage: String = postDataSnapshot.child("imageDownloadUri").value as String
                     val postTimestamp: Long = postDataSnapshot.child("timestamp").value as Long
                     val post = Post(contents = postContents,
                         friendUserId = postFriendUserId,
+                        friendName = postFriendName,
                         latitude = postLatitude,
                         longitude = postLongitude,
                         imageDownloadUri = postImage,
@@ -133,12 +135,13 @@ class PostAdapter(val postList: MutableList<Post>): RecyclerView.Adapter<PostAda
         private val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
 
         fun bind(post: Post) {
-            database.getReference("user").child(post.friendUserId).get().addOnSuccessListener {
-                binding.tvFriendName.text = it.child("userName").value.toString()
-            }.addOnFailureListener{
-                Log.e("firebase", "Error getting data", it)
-            }
+//            database.getReference("user").child(post.friendUserId).get().addOnSuccessListener {
+//                binding.tvFriendName.text = it.child("userName").value.toString()
+//            }.addOnFailureListener{
+//                Log.e("firebase", "Error getting data", it)
+//            }
             binding.tvPostContents.text = post.contents
+            binding.tvFriendName.text = post.friendName
             val date = Date(post.timestamp)
             val dateFormat = SimpleDateFormat("MM-dd E kk:mm", Locale("ko", "KR"))
             val strDate = dateFormat.format(date)
