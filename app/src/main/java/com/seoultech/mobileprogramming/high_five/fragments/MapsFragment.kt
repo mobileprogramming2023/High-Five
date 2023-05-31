@@ -46,17 +46,13 @@ class MapsFragment : Fragment() {
                 postLongitude = postDataSnapshot.child("longitude").value as Double
                 val postContent = postDataSnapshot.child("contents").value as String
                 val postFriendUid = postDataSnapshot.child("friendUserId").value as String
-//                database.getReference("user").child(postFriendUid).get().addOnSuccessListener {
-//                    binding.tvFriendName.text = it.child("userName").value.toString()
-//                }.addOnFailureListener{
-//                    Log.e("firebase", "Error getting data", it)
-//                }
+                val postFriendName = postDataSnapshot.child("friendName").value as String
                 val markerOptions = MarkerOptions()
 
                 markerOptions
                     .position(LatLng(postLatitude, postLongitude))
                     .title(postContent)
-                    .snippet("with $postFriendUid")
+                    .snippet("with $postFriendName")
                 googleMap.addMarker(markerOptions)
             }
             googleMap.moveCamera(

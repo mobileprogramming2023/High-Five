@@ -4,6 +4,7 @@ data class Post(
     val imageDownloadUri: String,
     val contents: String,
     val friendUserId: String,
+    val friendName: String,
     val timestamp: Long,
     val latitude: Double,
     val longitude: Double

@@ -66,6 +66,7 @@ class PostFragment : Fragment() {
     var userStorageReference = storageReference.child(userId)
 
     var friendUid: String? = null
+    var friendName: String? = null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -152,6 +153,7 @@ class PostFragment : Fragment() {
             imageDownloadUri = imageDownloadUri,
             contents = content,
             friendUserId = friendUid!!,
+            friendName = friendName!!,
             timestamp = System.currentTimeMillis(),
             latitude = location.latitude,
             longitude = location.longitude

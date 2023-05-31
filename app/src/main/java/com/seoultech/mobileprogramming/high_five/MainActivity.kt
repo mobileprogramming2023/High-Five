@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         accelerometer = sensorManager
             .getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         shakeDetector = ShakeDetector()
-        Log.d("highfive", "shakeDetector: $shakeDetector")
         val context: Context = this
         shakeDetector.setOnShakeListener(object : OnShakeListener {
             override fun onShake(count: Int) {
