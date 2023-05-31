@@ -52,6 +52,7 @@ class PostFragment : Fragment() {
     val auth = FirebaseAuth.getInstance()
     val currentUser = auth.currentUser
     val userId = currentUser?.uid.toString()
+    val userName = currentUser?.displayName
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     lateinit var location: Location
@@ -105,6 +106,8 @@ class PostFragment : Fragment() {
         binding.btnSave.setOnClickListener {
             if ((binding.tvInput.text?.length ?: 0) == 0) {
                 Toast.makeText(this.requireContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            } else if (friendUid == null) {
+                Toast.makeText(this.requireContext(), "QR 코드를 스캔해주세요.", Toast.LENGTH_SHORT).show()
             } else if (photoUri == null) {
                 addPost("", binding.tvInput.text.toString())
             } else {
@@ -116,7 +119,6 @@ class PostFragment : Fragment() {
                 uploadTask.addOnFailureListener {
                     TODO("Handle uncessessful uploads")
                 }.addOnSuccessListener { taskSnapshot ->
-                    Log.d("highfive", "$taskSnapshot")
                 }
 
                 val urlTask = uploadTask.continueWithTask { task ->
@@ -128,12 +130,12 @@ class PostFragment : Fragment() {
                     if (task.isSuccessful) {
                         downloadUri = task.result
                         addPost(downloadUri.toString(), binding.tvInput.text.toString())
-                        Log.d("highfive", "$downloadUri")
                     } else {
                         TODO("Handle failures")
                     }
                 }
             }
+            Toast.makeText(this.requireContext(), "Highfive가 완료되었습니다.", Toast.LENGTH_SHORT).show()
         }
 
         var qrCodeScan = QRCodeScan(this)

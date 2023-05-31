@@ -6,44 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".fragments.PostFragment">
 
-    <TextView
-        android:id="@+id/tv_사진"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="100dp"
-        android:text="사진"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/btn_insert_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:minWidth="0dp"
         android:minHeight="0dp"
-        android:text="+"
+        android:text="Take a photo!"
         app:backgroundTint="@color/gray"
-        app:layout_constraintStart_toStartOf="@+id/tv_사진"
-        app:layout_constraintTop_toBottomOf="@+id/tv_사진" />
+        app:layout_constraintStart_toStartOf="@+id/tv_WHAT"
+        app:layout_constraintTop_toBottomOf="@+id/tv_위치" />
 
     <TextView
-        android:id="@+id/tv_내용"
+        android:id="@+id/tv_WHAT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="내용"
-        app:layout_constraintStart_toStartOf="@+id/tv_사진"
-        app:layout_constraintTop_toBottomOf="@+id/uploadImage" />
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="WHAT"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_위치"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:text="위치"
-        app:layout_constraintStart_toStartOf="@+id/tv_내용"
-        app:layout_constraintTop_toBottomOf="@+id/uploadImage" />
+        android:layout_marginTop="32dp"
+        android:text="WHERE"
+        app:layout_constraintStart_toStartOf="@+id/tv_WHAT"
+        app:layout_constraintTop_toBottomOf="@+id/tv_input" />
 
     <Button
         android:id="@+id/btn_save"
@@ -69,33 +61,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="친구와 무엇을 했나요?"
-        app:layout_constraintStart_toStartOf="@+id/tv_내용"
-        app:layout_constraintTop_toBottomOf="@+id/tv_내용" />
+        app:layout_constraintStart_toStartOf="@+id/tv_WHAT"
+        app:layout_constraintTop_toBottomOf="@+id/tv_WHAT" />
 
     <TextView
         android:id="@+id/tv_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/tv_위치"
+        app:layout_constraintStart_toStartOf="@+id/tv_WHAT"
         app:layout_constraintTop_toBottomOf="@+id/tv_위치" />
 
     <Button
         android:id="@+id/btn_qr_scan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Scan"
-        app:layout_constraintStart_toEndOf="@+id/tv_friend_uid"
-        app:layout_constraintTop_toTopOf="@+id/tv_friend_uid" />
+        android:layout_marginBottom="8dp"
+        android:text="Who Highfive With?"
+        app:layout_constraintBottom_toTopOf="@+id/btn_save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_friend_uid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="친구"
-        app:layout_constraintBottom_toTopOf="@+id/tv_사진"
-        app:layout_constraintStart_toStartOf="@+id/tv_사진" />
+        android:text=""
+        android:textSize="32sp"
+        android:textColor="@color/pink"
+        app:layout_constraintBottom_toTopOf="@+id/btn_qr_scan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

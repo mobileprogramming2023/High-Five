@@ -44,10 +44,18 @@ class MapsFragment : Fragment() {
             for (postDataSnapshot in it.children) {
                 postLatitude = postDataSnapshot.child("latitude").value as Double
                 postLongitude = postDataSnapshot.child("longitude").value as Double
+                val postContent = postDataSnapshot.child("contents").value as String
+                val postFriendUid = postDataSnapshot.child("friendUserId").value as String
+//                database.getReference("user").child(postFriendUid).get().addOnSuccessListener {
+//                    binding.tvFriendName.text = it.child("userName").value.toString()
+//                }.addOnFailureListener{
+//                    Log.e("firebase", "Error getting data", it)
+//                }
                 val markerOptions = MarkerOptions()
                 markerOptions
                     .position(LatLng(postLatitude, postLongitude))
-                    .title("marker")
+                    .title(postContent)
+                    .snippet("with $postFriendUid")
                 googleMap.addMarker(markerOptions)
             }
             googleMap.moveCamera(
