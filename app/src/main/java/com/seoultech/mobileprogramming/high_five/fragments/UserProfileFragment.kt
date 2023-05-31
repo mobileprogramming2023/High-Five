@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -16,6 +17,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.MultiFormatWriter
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.seoultech.mobileprogramming.high_five.LoginActivity
 import com.seoultech.mobileprogramming.high_five.MainActivity
 import com.seoultech.mobileprogramming.high_five.R
@@ -51,6 +55,15 @@ class UserProfileFragment : Fragment() {
         binding = FragmentUserProfileBinding.inflate(inflater, container, false)
         binding.tvName.text = userName
         Glide.with(this).load(userPhotoUrl).into(binding.ivProfile)
+
+        val multiFormatWriter = MultiFormatWriter()
+        try {
+            val bitMatrix = multiFormatWriter.encode(currentUser!!.uid, BarcodeFormat.QR_CODE, 400, 400)
+            val barcodeEncoder = BarcodeEncoder()
+            val bitmap = barcodeEncoder.createBitmap(bitMatrix)
+            binding.qrcodeProfilePage.setImageBitmap(bitmap)
+        } catch (e: Exception) {
+        }
 
         return binding.root
     }

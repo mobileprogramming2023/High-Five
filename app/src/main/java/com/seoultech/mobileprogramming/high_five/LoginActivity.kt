@@ -13,13 +13,16 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.FirebaseOptions
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.seoultech.mobileprogramming.high_five.DTO.User
 import com.seoultech.mobileprogramming.high_five.databinding.ActivityLoginBinding
+import java.io.FileInputStream
 
 
 class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
@@ -63,15 +66,9 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             .build()
 
         binding.btnGoogle.setOnClickListener {
-            val intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient) // google이 만들어놓은 intent로 넘어옴
+            val intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient)
             startActivityForResult(intent, REQ_SIGN_GOOGLE);
         }
-    }
-
-    fun getLogoutStatus(): Boolean {
-        val intent = getIntent()
-        val logout: Boolean = intent.getBooleanExtra("logout", true)
-        return logout
     }
 
     override fun onConnectionFailed(p0: ConnectionResult) {

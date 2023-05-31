@@ -80,4 +80,22 @@
         app:layout_constraintStart_toStartOf="@+id/tv_위치"
         app:layout_constraintTop_toBottomOf="@+id/tv_위치" />
 
+    <Button
+        android:id="@+id/btn_qr_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Scan"
+        app:layout_constraintStart_toEndOf="@+id/tv_friend_uid"
+        app:layout_constraintTop_toTopOf="@+id/tv_friend_uid" />
+
+    <TextView
+        android:id="@+id/tv_friend_uid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="친구"
+        app:layout_constraintBottom_toTopOf="@+id/tv_사진"
+        app:layout_constraintStart_toStartOf="@+id/tv_사진" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
