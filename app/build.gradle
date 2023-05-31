@@ -17,10 +17,12 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
+        resConfigs "en", "ko", "fr"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "FIREBASE_DATABASE_URL", properties['firebase_database_url']
         buildConfigField "String", "FIREBASE_STORAGE_URL", properties['firebase_storage_url']
+        manifestPlaceholders = [GOOGLE_API_KEY: "${properties.getProperty('GOOGLE_API_KEY')}"]
     }
 
     buildTypes {

@@ -2,15 +2,15 @@
     <string name="app_name">High-Five</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">이메일</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_success">Login Successes, Welcome!</string>
-    <string name="login_failed">Login Failed, Try Again</string>
+    <string name="login_success">로그인 성공, 환영합니다!</string>
+    <string name="login_failed">로그인 실패, 다시 시도해주세요</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
@@ -20,7 +20,7 @@
     <string name="high_five_fragment_title">High-Five Fragment. QR Code would be contained</string>
 
     <!-- Strings related to Post Fragment -->
-    <string name="post_fragment_nav_title">High-Five</string>
+    <string name="post_fragment_nav_title">하이파이브</string>
 
     <!-- Strings related to User Qr Fragment -->
     <string name="user_qr_code_info">This is QR code fragment.</string>
@@ -29,11 +29,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Strings For Navigation -->
-    <string name="home_fragment_nav_title">Home</string>
-    <string name="user_fragment_nav_title">User Profile</string>
-    <string name="map_fragment_nav_title">Map</string>
+    <string name="home_fragment_nav_title">홈</string>
+    <string name="user_fragment_nav_title">내 프로필</string>
+    <string name="map_fragment_nav_title">지도</string>
+
 
     <!-- Scan Page Fragment-->
-    <string name="scan_me">Scan Me!</string>
-
+    <string name="scan_me">스캔하세요!</string>
 </resources>

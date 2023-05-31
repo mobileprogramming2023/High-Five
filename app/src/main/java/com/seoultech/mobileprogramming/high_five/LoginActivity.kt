@@ -98,7 +98,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                     if (it.isSuccessful) {
                         Toast.makeText(
                             baseContext,
-                            "Login Success",
+                            baseContext.getString(R.string.login_success),
                             Toast.LENGTH_SHORT,
                         ).show()
                         val user = User(
@@ -114,7 +114,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                     } else {
                         Toast.makeText(
                             baseContext,
-                            "Login Fail",
+                            baseContext.getString(R.string.login_failed),
                             Toast.LENGTH_SHORT,
                         ).show()
                         // TODO 로그인 실패 시 처리 구현
