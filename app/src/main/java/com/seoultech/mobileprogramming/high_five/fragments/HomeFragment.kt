@@ -24,7 +24,6 @@ import com.google.firebase.ktx.Firebase
 import com.seoultech.mobileprogramming.high_five.DTO.Post
 import com.seoultech.mobileprogramming.high_five.databinding.FragmentHomeBinding
 import com.seoultech.mobileprogramming.high_five.databinding.FriendViewBinding
-import com.seoultech.mobileprogramming.high_five.databinding.PostViewBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -83,13 +82,13 @@ class HomeFragment : Fragment() {
                     val postContents: String = postDataSnapshot.child("contents").value as String
                     val postFriendUserId: String = postDataSnapshot.child("friendUserId").value as String
                     val postLatitude: Double = postDataSnapshot.child("latitude").value as Double
-                    val postLonitude: Double = postDataSnapshot.child("longitude").value as Double
+                    val postLongitude: Double = postDataSnapshot.child("longitude").value as Double
                     val postImage: String = postDataSnapshot.child("imageDownloadUri").value as String
                     val postTimestamp: Long = postDataSnapshot.child("timestamp").value as Long
                     val post = Post(contents = postContents,
                         friendUserId = postFriendUserId,
-                        latitude =postLatitude,
-                        longitude = postLonitude,
+                        latitude = postLatitude,
+                        longitude = postLongitude,
                         imageDownloadUri = postImage,
                         timestamp = postTimestamp)
                     postList.add(post)

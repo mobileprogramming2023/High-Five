@@ -24,6 +24,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.seoultech.mobileprogramming.high_five.BuildConfig
 import com.seoultech.mobileprogramming.high_five.DTO.Post
+import com.seoultech.mobileprogramming.high_five.MainActivity
+import com.seoultech.mobileprogramming.high_five.QRCodeScan
 import com.seoultech.mobileprogramming.high_five.databinding.FragmentPostBinding
 import java.util.*
 
@@ -61,6 +63,8 @@ class PostFragment : Fragment() {
     val storage = FirebaseStorage.getInstance(BuildConfig.FIREBASE_STORAGE_URL)
     val storageReference = storage.getReference()
     var userStorageReference = storageReference.child(userId)
+
+    var friendUid: String? = null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -131,15 +135,21 @@ class PostFragment : Fragment() {
                 }
             }
         }
+
+        var qrCodeScan = QRCodeScan(this)
+        binding.btnQrScan.setOnClickListener() {
+            qrCodeScan.startQRScan()
+        }
+
         return binding.root
     }
 
+
     fun addPost(imageDownloadUri: String, content: String) {
-        val testFriendUid = "zg5MSmjjw2crUrL2Omt5oqKECax2"
         val post: Post = Post(
             imageDownloadUri = imageDownloadUri,
             contents = content,
-            friendUserId = testFriendUid,
+            friendUserId = friendUid!!,
             timestamp = System.currentTimeMillis(),
             latitude = location.latitude,
             longitude = location.longitude
