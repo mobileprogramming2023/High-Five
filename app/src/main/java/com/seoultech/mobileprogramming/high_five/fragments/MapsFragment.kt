@@ -52,6 +52,7 @@ class MapsFragment : Fragment() {
 //                    Log.e("firebase", "Error getting data", it)
 //                }
                 val markerOptions = MarkerOptions()
+
                 markerOptions
                     .position(LatLng(postLatitude, postLongitude))
                     .title(postContent)

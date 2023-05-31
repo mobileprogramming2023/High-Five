@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
         val postFragment = PostFragment()
         val mapsFragment = MapsFragment()
         val userProfileFragment = UserProfileFragment()
-        val userQrFragment = UserQrFragment()
 
         fragmentManager.commit {
             add(binding.fragmentContainerView.id, homeFragment)

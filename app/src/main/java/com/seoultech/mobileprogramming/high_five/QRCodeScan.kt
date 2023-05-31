@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
+import com.journeyapps.barcodescanner.CaptureActivity
 import com.seoultech.mobileprogramming.high_five.fragments.PostFragment
 
 class QRCodeScan(private val fragment:PostFragment) {
@@ -15,6 +16,7 @@ class QRCodeScan(private val fragment:PostFragment) {
         intentIntegrator.setPrompt("안내선 안에 QR코드를 맞추면 자동으로 인식됩니다.")
         intentIntegrator.setOrientationLocked(true)
         intentIntegrator.setBeepEnabled(false)
+        intentIntegrator.captureActivity = CaptureActivity::class.java
         activityResult.launch(intentIntegrator.createScanIntent())
     }
 
