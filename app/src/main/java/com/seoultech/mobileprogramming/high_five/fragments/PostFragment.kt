@@ -57,11 +57,7 @@ class PostFragment : Fragment() {
     private val REQUEST_PERMISSION_LOCATION = 10
 
     val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
-<<<<<<< HEAD
-    val databaseReference = database.getReference(userId)
-=======
     val databaseReference = database.getReference("post")
->>>>>>> e2ec0dcd4c2414d7ffc38fa9416b4e29c90c10ba
     val storage = FirebaseStorage.getInstance(BuildConfig.FIREBASE_STORAGE_URL)
     val storageReference = storage.getReference()
     var userStorageReference = storageReference.child(userId)
@@ -139,11 +135,6 @@ class PostFragment : Fragment() {
     }
 
     fun addPost(imageDownloadUri: String, content: String) {
-<<<<<<< HEAD
-        val testFriendUid = "freindUid_test"
-        val post: Post = Post(imageDownloadUri, content, testFriendUid, System.currentTimeMillis(), "서울시 노원구 공릉동")
-        databaseReference.child("post").push().setValue(post)
-=======
         val testFriendUid = "zg5MSmjjw2crUrL2Omt5oqKECax2"
         val post: Post = Post(
             imageDownloadUri = imageDownloadUri,
@@ -210,7 +201,6 @@ class PostFragment : Fragment() {
             val address: Address = addressList[0]
             return address.getAddressLine(0).toString()
         }
->>>>>>> e2ec0dcd4c2414d7ffc38fa9416b4e29c90c10ba
     }
 
     companion object {

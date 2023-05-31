@@ -24,4 +24,10 @@
     <!-- Strings related to User Qr Fragment -->
     <string name="user_qr_code_info">This is QR code fragment.</string>
     <string name="qr_description">Indicates QR code for record</string>
+    <string name="btn_scan_friends_qr">Scan My Friend</string>
+
+    <!-- Strings related to Friend Qr Scanner View -->
+    <string name="friend_qr_code_info">This is QR code scanner view.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
