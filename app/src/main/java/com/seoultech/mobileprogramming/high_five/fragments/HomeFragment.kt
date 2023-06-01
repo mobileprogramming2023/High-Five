@@ -1,6 +1,7 @@
 package com.seoultech.mobileprogramming.high_five.fragments
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Rect
 import android.location.Address
 import android.location.Geocoder
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.ConfigurationCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +27,8 @@ import com.seoultech.mobileprogramming.high_five.DTO.Post
 import com.seoultech.mobileprogramming.high_five.databinding.FragmentHomeBinding
 import com.seoultech.mobileprogramming.high_five.databinding.FriendViewBinding
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -140,10 +143,11 @@ class PostAdapter(val postList: MutableList<Post>): RecyclerView.Adapter<PostAda
 //            }.addOnFailureListener{
 //                Log.e("firebase", "Error getting data", it)
 //            }
+            val locale = ConfigurationCompat.getLocales(Resources.getSystem().configuration)[0]
             binding.tvPostContents.text = post.contents
             binding.tvFriendName.text = post.friendName
             val date = Date(post.timestamp)
-            val dateFormat = SimpleDateFormat("MM-dd E kk:mm", Locale("ko", "KR"))
+            val dateFormat = SimpleDateFormat("MM-dd E kk:mm", Locale(locale?.language, locale?.country))
             val strDate = dateFormat.format(date)
             binding.tvPostDatetime.text = strDate
             binding.tvPostLocation.text = getCurrentAddress(post.latitude, post.longitude)

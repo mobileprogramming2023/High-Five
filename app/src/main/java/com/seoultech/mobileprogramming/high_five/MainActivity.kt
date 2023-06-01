@@ -11,6 +11,7 @@ import com.seoultech.mobileprogramming.high_five.ShakeDetector.OnShakeListener
 import com.seoultech.mobileprogramming.high_five.databinding.ActivityMainBinding
 import com.seoultech.mobileprogramming.high_five.fragments.*
 import android.content.Intent
+import com.google.android.material.color.DynamicColors
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager

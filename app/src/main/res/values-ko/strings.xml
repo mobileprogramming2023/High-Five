@@ -21,6 +21,8 @@
 
     <!-- Strings related to Post Fragment -->
     <string name="post_fragment_nav_title">하이파이브</string>
+    <string name="what_did_you_do">무엇을 했나요?</string>
+
 
     <!-- Strings related to User Qr Fragment -->
     <string name="user_qr_code_info">This is QR code fragment.</string>

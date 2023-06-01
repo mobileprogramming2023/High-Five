@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="Scan me!"
+        android:text="@string/scan_me"
         android:textSize="32sp"
         android:textColor="@color/pink"
         android:fontFamily="@font/gmarket_sans_ttf_bold"
