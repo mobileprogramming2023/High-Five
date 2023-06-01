@@ -22,6 +22,18 @@
     <!-- Strings related to Post Fragment -->
     <string name="post_fragment_nav_title">High-Five</string>
     <string name="what_did_you_do">What did you do?</string>
+    <string name="post_button">Post</string>
+    <string name="post_success">High-Five Success!</string>
+    <string name="post_failed_no_text">Write a text</string>
+    <string name="post_failed_no_qr">Scan your friend\'s QR.</string>
+    <string name="post_qr_access">Who is this?</string>
+    <string name="post_save_hf">Save</string>
+    <string name="post_get_photo">Get Photo</string>
+    <string name="post_location_info">WHERE?</string>
+
+    <!-- Strings related to User Profile Fragment -->
+    <string name="logout_successed">See you again!</string>
+    <string name="logout_button_text">Logout</string>
 
     <!-- Strings related to User Qr Fragment -->
     <string name="user_qr_code_info">This is QR code fragment.</string>
@@ -36,5 +48,14 @@
 
     <!-- Scan Page Fragment-->
     <string name="scan_me">Scan Me!</string>
+
+    <!-- Strings related to Home Fragment -->
+    <string name="address_null">No GPS information.</string>
+
+    <!-- Strings related to Qr Code Scan -->
+    <string name="qr_grid_info">Put QR to the info line.</string>
+    <string name="qr_null">No QR detected.</string>
+    <string name="qr_detected_info">uid in QR</string>
+    <string name="qr_failed">Scan failed</string>
 
 </resources>

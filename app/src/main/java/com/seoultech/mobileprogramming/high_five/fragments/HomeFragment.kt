@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.seoultech.mobileprogramming.high_five.DTO.Post
+import com.seoultech.mobileprogramming.high_five.R
 import com.seoultech.mobileprogramming.high_five.databinding.FragmentHomeBinding
 import com.seoultech.mobileprogramming.high_five.databinding.FriendViewBinding
 import java.text.SimpleDateFormat
@@ -158,8 +159,8 @@ class PostAdapter(val postList: MutableList<Post>): RecyclerView.Adapter<PostAda
             val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 10)
 
             if (addressList == null || addressList.size == 0) {
-                Toast.makeText(this.context, "주소를 발견할 수 없습니다.", Toast.LENGTH_SHORT).show()
-                return "주소 없음"
+                Toast.makeText(this.context, context.getString(R.string.address_null), Toast.LENGTH_SHORT).show()
+                return context.getString(R.string.address_null)
             }
             else {
                 val address: Address = addressList[0]

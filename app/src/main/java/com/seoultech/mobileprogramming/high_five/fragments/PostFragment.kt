@@ -26,6 +26,7 @@ import com.seoultech.mobileprogramming.high_five.BuildConfig
 import com.seoultech.mobileprogramming.high_five.DTO.Post
 import com.seoultech.mobileprogramming.high_five.MainActivity
 import com.seoultech.mobileprogramming.high_five.QRCodeScan
+import com.seoultech.mobileprogramming.high_five.R as hfRes
 import com.seoultech.mobileprogramming.high_five.databinding.FragmentPostBinding
 import java.util.*
 
@@ -59,7 +60,8 @@ class PostFragment : Fragment() {
     lateinit var locationRequest: LocationRequest
     private val REQUEST_PERMISSION_LOCATION = 10
 
-    val database = Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
+    val database =
+        Firebase.database(com.seoultech.mobileprogramming.high_five.BuildConfig.FIREBASE_DATABASE_URL)
     val databaseReference = database.getReference("post")
     val storage = FirebaseStorage.getInstance(BuildConfig.FIREBASE_STORAGE_URL)
     val storageReference = storage.getReference()
@@ -106,9 +108,9 @@ class PostFragment : Fragment() {
 
         binding.btnSave.setOnClickListener {
             if ((binding.tvInput.text?.length ?: 0) == 0) {
-                Toast.makeText(this.requireContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.requireContext(), hfRes.string.post_failed_no_text, Toast.LENGTH_SHORT).show()
             } else if (friendUid == null) {
-                Toast.makeText(this.requireContext(), "QR 코드를 스캔해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.requireContext(), hfRes.string.post_failed_no_qr, Toast.LENGTH_SHORT).show()
             } else if (photoUri == null) {
                 addPost("", binding.tvInput.text.toString())
             } else {
@@ -136,7 +138,11 @@ class PostFragment : Fragment() {
                     }
                 }
             }
-            Toast.makeText(this.requireContext(), "Highfive가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this.requireContext(),
+                getString(hfRes.string.post_success),
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         var qrCodeScan = QRCodeScan(this)
@@ -166,7 +172,11 @@ class PostFragment : Fragment() {
             if (context.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 true
             } else {
-                ActivityCompat.requestPermissions(this.requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_PERMISSION_LOCATION)
+                ActivityCompat.requestPermissions(
+                    this.requireActivity(),
+                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_PERMISSION_LOCATION
+                )
                 false
             }
         } else {
@@ -175,13 +185,24 @@ class PostFragment : Fragment() {
     }
 
     private fun startLocationUpdates() {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireActivity())
-        if (ActivityCompat.checkSelfPermission(this.requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this.requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        fusedLocationClient =
+            LocationServices.getFusedLocationProviderClient(this.requireActivity())
+        if (ActivityCompat.checkSelfPermission(
+                this.requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                this.requireContext(),
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
         }
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.myLooper()
+        )
     }
 
     val locationCallback = object : LocationCallback() {
@@ -198,7 +219,10 @@ class PostFragment : Fragment() {
 
     fun onLocationChanged(location: Location) {
         val lastLocation = location
-        Log.d("highfive", "위도: ${location.latitude}, 경도: ${location.longitude}, ${lastLocation.bearing}")
+        Log.d(
+            "highfive",
+            "위도: ${location.latitude}, 경도: ${location.longitude}, ${lastLocation.bearing}"
+        )
         val currentAddress: String = getCurrentAddress(location.latitude, location.longitude)
         binding.tvLocation.text = currentAddress
     }
@@ -208,10 +232,9 @@ class PostFragment : Fragment() {
         val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 10)
 
         if (addressList == null || addressList.size == 0) {
-            Toast.makeText(this.requireContext(), "주소를 발견할 수 없습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.requireContext(), hfRes.string.address_null, Toast.LENGTH_SHORT).show()
             return "주소 없음"
-        }
-        else {
+        } else {
             val address: Address = addressList[0]
             return address.getAddressLine(0).toString()
         }

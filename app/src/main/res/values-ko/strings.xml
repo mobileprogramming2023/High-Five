@@ -22,6 +22,18 @@
     <!-- Strings related to Post Fragment -->
     <string name="post_fragment_nav_title">하이파이브</string>
     <string name="what_did_you_do">무엇을 했나요?</string>
+    <string name="post_button">게시</string>
+    <string name="post_success">High-Five 성공!</string>
+    <string name="post_failed_no_text">글을 적어주세요.</string>
+    <string name="post_failed_no_qr">상대방의 QR코드를 스캔하세요.</string>
+    <string name="post_qr_access">누군가요?</string>
+    <string name="post_save_hf">저장하기</string>
+    <string name="post_get_photo">사진 가져오기</string>
+    <string name="post_location_info">어딘가요?</string>
+
+    <!-- Strings related to User Profile Fragment -->
+    <string name="logout_successed">다음에 봐요!</string>
+    <string name="logout_button_text">로그아웃</string>
 
 
     <!-- Strings related to User Qr Fragment -->
@@ -38,4 +50,13 @@
 
     <!-- Scan Page Fragment-->
     <string name="scan_me">스캔하세요!</string>
+
+    <!-- Strings related to Home Fragment -->
+    <string name="address_null">주소를 찾을 수 없습니다.</string>
+
+    <!-- Strings related to Qr Code Scan -->
+    <string name="qr_grid_info">안내선 안에 QR코드를 맞추면 자동으로 인식됩니다.</string>
+    <string name="qr_null">인식된 QR 데이터가 없습니다.</string>
+    <string name="qr_detected_info">인식된 QR 데이터</string>
+    <string name="qr_failed">인식 실패</string>
 </resources>

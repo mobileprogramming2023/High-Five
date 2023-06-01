@@ -21,13 +21,25 @@
 
     <!-- Strings related to Post Fragment -->
     <string name="post_fragment_nav_title">High-Five</string>
-    <string name="what_did_you_do">Aujourd'hui?</string>
+    <string name="what_did_you_do">Aujourd\'hui?</string>
+    <string name="post_button">Poste</string>
+    <string name="post_success">High-Five Succèse!</string>
+    <string name="post_failed_no_text">Compléter le texte.</string>
+    <string name="post_failed_no_qr">Scannez le code QR de votre ami.</string>
+    <string name="post_qr_access">Qui est-ce ?</string>
+    <string name="post_save_hf">Enregister</string>
+    <string name="post_get_photo">Joindre une photo</string>
+    <string name="post_location_info">OÙ?</string>
 
     <!-- Strings related to User Qr Fragment -->
     <string name="user_qr_code_info">This is QR code fragment.</string>
     <string name="qr_description">Indicates QR code for record</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Strings related to User Profile Fragment -->
+    <string name="logout_successed">A bientôt</string>
+    <string name="logout_button_text">Déconnexion</string>
 
 
     <!-- Strings For Navigation -->
@@ -38,4 +50,12 @@
     <!-- Scan Page Fragment-->
     <string name="scan_me">Scanne Moi!</string>
 
+    <!-- Strings related to Home Fragment -->
+    <string name="address_null">Aucune adresse</string>
+
+    <!-- Strings related to Qr Code Scan -->
+    <string name="qr_grid_info">Mettre QR à la ligne d\'information.</string>
+    <string name="qr_null">Aucun QR n\'a été détecté.</string>
+    <string name="qr_detected_info">uid dans QR</string>
+    <string name="qr_failed">Échec de l\'analyse</string>
 </resources>

@@ -58,7 +58,8 @@ class UserProfileFragment : Fragment() {
 
         val multiFormatWriter = MultiFormatWriter()
         try {
-            val bitMatrix = multiFormatWriter.encode(currentUser!!.uid, BarcodeFormat.QR_CODE, 400, 400)
+            val bitMatrix =
+                multiFormatWriter.encode(currentUser!!.uid, BarcodeFormat.QR_CODE, 400, 400)
             val barcodeEncoder = BarcodeEncoder()
             val bitmap = barcodeEncoder.createBitmap(bitMatrix)
             binding.qrcodeProfilePage.setImageBitmap(bitmap)
@@ -102,12 +103,17 @@ class UserProfileFragment : Fragment() {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
-        val googleSignInClient = this.let {GoogleSignIn.getClient(it.requireActivity(), googleSignInOptions)}
+        val googleSignInClient =
+            this.let { GoogleSignIn.getClient(it.requireActivity(), googleSignInOptions) }
 
         auth.signOut()
         googleSignInClient.signOut()
 
-        Toast.makeText(this.requireContext(), "Logout Success", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this.requireContext(),
+            this.getString(R.string.logout_successed),
+            Toast.LENGTH_SHORT
+        ).show()
         val intent = Intent(this.requireContext(), LoginActivity::class.java)
         intent.putExtra("logout", true)
         startActivity(intent)
