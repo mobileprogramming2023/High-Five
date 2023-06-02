@@ -68,7 +68,6 @@ class PostFragment : Fragment() {
     var userStorageReference = storageReference.child(userId)
 
     var friendUid: String? = null
-    var friendName: String? = null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
