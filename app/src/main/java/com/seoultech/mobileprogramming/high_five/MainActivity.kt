@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.postFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, postFragment) }
                 R.id.mapFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, mapsFragment) }
                 R.id.userPageFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, userProfileFragment) }
+                R.id.userQRFragment -> fragmentManager.commit { replace(binding.fragmentContainerView.id, userQrFragment) }
             }
             true
         }

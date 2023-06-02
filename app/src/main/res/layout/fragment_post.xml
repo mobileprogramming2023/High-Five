@@ -6,36 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".fragments.PostFragment">
 
+    <TextView
+        android:id="@+id/tv_사진"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="100dp"
+        android:text="사진"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/btn_insert_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
         android:minWidth="0dp"
         android:minHeight="0dp"
         android:text="@string/post_get_photo"
         app:backgroundTint="@color/gray"
-        app:layout_constraintStart_toStartOf="@+id/tv_WHAT"
-        app:layout_constraintTop_toBottomOf="@+id/tv_위치" />
+        app:layout_constraintStart_toStartOf="@+id/tv_사진"
+        app:layout_constraintTop_toBottomOf="@+id/tv_사진" />
 
     <TextView
-        android:id="@+id/tv_WHAT"
+        android:id="@+id/tv_내용"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:text="WHAT"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="80dp"
+        android:text="내용"
+        app:layout_constraintStart_toStartOf="@+id/tv_사진"
+        app:layout_constraintTop_toBottomOf="@+id/uploadImage" />
 
     <TextView
         android:id="@+id/tv_위치"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="WHERE"
-        app:layout_constraintStart_toStartOf="@+id/tv_WHAT"
-        app:layout_constraintTop_toBottomOf="@+id/tv_input" />
+        android:layout_marginTop="200dp"
+        android:text="위치"
+        app:layout_constraintStart_toStartOf="@+id/tv_내용"
+        app:layout_constraintTop_toBottomOf="@+id/uploadImage" />
 
     <Button
         android:id="@+id/btn_save"
@@ -61,14 +69,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="친구와 무엇을 했나요?"
-        app:layout_constraintStart_toStartOf="@+id/tv_WHAT"
-        app:layout_constraintTop_toBottomOf="@+id/tv_WHAT" />
+        app:layout_constraintStart_toStartOf="@+id/tv_내용"
+        app:layout_constraintTop_toBottomOf="@+id/tv_내용" />
 
     <TextView
         android:id="@+id/tv_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/tv_WHAT"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/tv_위치"
         app:layout_constraintTop_toBottomOf="@+id/tv_위치" />
 
     <Button
@@ -86,11 +95,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text=""
-        android:textSize="32sp"
-        android:textColor="@color/pink"
-        app:layout_constraintBottom_toTopOf="@+id/btn_qr_scan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="친구"
+        app:layout_constraintBottom_toTopOf="@+id/tv_사진"
+        app:layout_constraintStart_toStartOf="@+id/tv_사진" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

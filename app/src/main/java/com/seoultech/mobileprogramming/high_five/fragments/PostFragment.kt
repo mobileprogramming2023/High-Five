@@ -53,7 +53,6 @@ class PostFragment : Fragment() {
     val auth = FirebaseAuth.getInstance()
     val currentUser = auth.currentUser
     val userId = currentUser?.uid.toString()
-    val userName = currentUser?.displayName
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     lateinit var location: Location
@@ -121,6 +120,7 @@ class PostFragment : Fragment() {
                 uploadTask.addOnFailureListener {
                     TODO("Handle uncessessful uploads")
                 }.addOnSuccessListener { taskSnapshot ->
+                    Log.d("highfive", "$taskSnapshot")
                 }
 
                 val urlTask = uploadTask.continueWithTask { task ->
@@ -132,6 +132,7 @@ class PostFragment : Fragment() {
                     if (task.isSuccessful) {
                         downloadUri = task.result
                         addPost(downloadUri.toString(), binding.tvInput.text.toString())
+                        Log.d("highfive", "$downloadUri")
                     } else {
                         TODO("Handle failures")
                     }
